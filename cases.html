@@ -865,7 +865,7 @@ function renderVideos(sectionId, items) {
           playsinline
           webkit-playsinline
           muted
-          preload="auto"
+          preload="none"
         ></video>
         <div class="video-play-overlay">
           <div class="video-play-icon">
@@ -933,15 +933,7 @@ function openVideoModal(sectionId, index) {
 
   label.textContent = item.label;
 
-  // Always create a FRESH video element (reusing src on mobile is unreliable)
   container.innerHTML = '';
-
-  // Loading overlay
-  var loadingOverlay = document.createElement('div');
-  loadingOverlay.className = 'video-loading-overlay';
-  loadingOverlay.id = 'videoLoadingOverlay';
-  loadingOverlay.innerHTML = '<div class="spinner"></div><p>视频加载中，请稍候…</p>';
-  container.appendChild(loadingOverlay);
 
   var video = document.createElement('video');
   video.className = 'video-modal-player';
@@ -951,44 +943,33 @@ function openVideoModal(sectionId, index) {
   video.preload = 'auto';
   video.src = item.src;
 
-  // Hide loading when video actually starts playing
-  video.addEventListener('playing', function() {
-    var overlay = document.getElementById('videoLoadingOverlay');
-    if (overlay) overlay.classList.add('hidden');
-  });
-  // Show loading again if buffering
-  video.addEventListener('waiting', function() {
-    var overlay = document.getElementById('videoLoadingOverlay');
-    if (overlay) overlay.classList.remove('hidden');
-  });
-  // Error handling
-  video.addEventListener('error', function() {
-    var overlay = document.getElementById('videoLoadingOverlay');
-    if (overlay) {
-      overlay.innerHTML = '<p style="color:#ef4444;">视频加载失败，请检查网络后重试</p>';
-    }
-  });
-  // If still loading after 10s, show a tap-to-play hint
-  setTimeout(function() {
-    var overlay = document.getElementById('videoLoadingOverlay');
-    if (overlay && !overlay.classList.contains('hidden')) {
-      overlay.innerHTML = '<div class="spinner"></div><p>加载较慢，请点击视频播放</p>';
-    }
-  }, 10000);
+  // Non-blocking loading hint
+  var hint = document.createElement('div');
+  hint.style.cssText = 'position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#9CA3AF;font-size:0.75rem;pointer-events:none;';
+  hint.textContent = '加载中…';
+  container.appendChild(hint);
 
   container.appendChild(video);
-
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // Auto-play (user clicked thumbnail = allowed gesture)
-  var playPromise = video.play();
-  if (playPromise !== undefined) {
-    playPromise.catch(function(e) {
-      // Some browsers still block — ignore, user can tap native controls
-      console.log('Auto-play blocked:', e.name);
-    });
+  // Try play, retry on failure (up to 3 retries)
+  var retries = 0;
+  function attemptPlay() {
+    var p = video.play();
+    if (p && p.catch) {
+      p.catch(function() {
+        retries++;
+        if (retries < 4) setTimeout(attemptPlay, 600);
+        else hint.textContent = '点击 ▶ 播放';
+      });
+    }
   }
+  video.addEventListener('canplay', function() {
+    hint.style.display = 'none';
+    if (video.paused) attemptPlay();
+  });
+  attemptPlay();
 }
 
 function closeVideoModal(event) {
