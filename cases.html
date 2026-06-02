@@ -59,6 +59,12 @@ main { position: relative; z-index: 1; }
 
 img { display: block; max-width: 100%; height: auto; }
 video { display: block; max-width: 100%; height: auto; }
+/* Prevent video download / long-press save on mobile */
+video {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
 
 /* ═══════ Navigation ═══════ */
 .nav {
@@ -865,6 +871,7 @@ function openVideoModal(sectionId, index) {
   var video = document.createElement('video');
   video.className = 'video-modal-player';
   video.controls = true;
+  video.controlsList = 'nodownload';
   video.playsInline = true;
   video.setAttribute('webkit-playsinline', '');
   video.setAttribute('x5-video-player-type', 'h5');
@@ -872,6 +879,7 @@ function openVideoModal(sectionId, index) {
   video.setAttribute('x5-video-orientation', 'portrait');
   video.loop = true;
   video.muted = true;
+  video.oncontextmenu = function(e) { e.preventDefault(); return false; };
   video.preload = 'auto';
   video.src = item.src;
   container.appendChild(video);
