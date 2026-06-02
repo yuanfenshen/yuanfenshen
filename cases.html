@@ -270,15 +270,50 @@ video {
   box-shadow: 0 8px 30px rgba(37, 99, 235, 0.08);
 }
 
+.image-case-item .img-wrap {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .image-case-item img {
   width: 100%;
   height: auto;
   display: block;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: opacity 0.4s ease, transform 0.3s ease;
+  opacity: 0;
+}
+
+.image-case-item img.loaded {
+  opacity: 1;
 }
 
 .image-case-item img:hover { transform: scale(1.02); }
+
+.img-loading {
+  position: absolute;
+  width: 32px; height: 32px;
+  border: 2px solid rgba(255,255,255,0.1);
+  border-top-color: var(--accent-blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.img-error {
+  position: absolute;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
 
 .image-case-label {
   padding: 0.75rem 1rem;
@@ -440,6 +475,37 @@ video {
   object-fit: contain;
   border-radius: 6px;
   background: #000;
+}
+
+.video-loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: rgba(0,0,0,0.7);
+  z-index: 10;
+  transition: opacity 0.3s ease;
+}
+
+.video-loading-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.video-loading-overlay .spinner {
+  width: 40px; height: 40px;
+  border: 3px solid rgba(255,255,255,0.15);
+  border-top-color: var(--accent-blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.video-loading-overlay p {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
 }
 
 /* ═══════ Lightbox ═══════ */
@@ -700,10 +766,10 @@ video {
 
 <!-- ═══════ Video Modal ═══════ -->
 <div class="video-modal" id="videoModal" onclick="closeVideoModal(event)">
-  <div class="video-modal-inner" onclick="event.stopPropagation()">
+  <div class="video-modal-inner" onclick="event.stopPropagation()" style="position:relative;">
     <button class="video-modal-close" onclick="closeVideoModal()">&times;</button>
     <p class="video-modal-label" id="videoModalLabel"></p>
-    <div id="videoModalContainer"></div>
+    <div id="videoModalContainer" style="position:relative;"></div>
   </div>
 </div>
 
@@ -725,13 +791,13 @@ const caseData = {
     type: 'image',
     title: '电商图片',
     items: [
-      { src: 'assets/cases/ecommerce/ecom-01.png', label: '案例 1' },
-      { src: 'assets/cases/ecommerce/ecom-07.png', label: '案例 2' },
-      { src: 'assets/cases/ecommerce/ecom-06.png', label: '案例 3' },
-      { src: 'assets/cases/ecommerce/ecom-02.png', label: '案例 4' },
-      { src: 'assets/cases/ecommerce/ecom-03.png', label: '案例 5' },
-      { src: 'assets/cases/ecommerce/ecom-04.png', label: '案例 6' },
-      { src: 'assets/cases/ecommerce/ecom-05.png', label: '案例 7' },
+      { src: 'assets/cases/ecommerce/ecom-01.jpg', label: '案例 1' },
+      { src: 'assets/cases/ecommerce/ecom-07.jpg', label: '案例 2' },
+      { src: 'assets/cases/ecommerce/ecom-06.jpg', label: '案例 3' },
+      { src: 'assets/cases/ecommerce/ecom-02.jpg', label: '案例 4' },
+      { src: 'assets/cases/ecommerce/ecom-03.jpg', label: '案例 5' },
+      { src: 'assets/cases/ecommerce/ecom-04.jpg', label: '案例 6' },
+      { src: 'assets/cases/ecommerce/ecom-05.jpg', label: '案例 7' },
     ]
   },
   'info-feed': {
@@ -780,7 +846,13 @@ function renderImages(sectionId, items) {
   if (!grid) return;
   grid.innerHTML = items.map((item, i) => `
     <div class="image-case-item">
-      <img src="${item.src}" alt="${item.label}" loading="lazy" onclick="openLightbox('${item.src}')">
+      <div class="img-wrap">
+        <div class="img-loading" id="img-load-${sectionId}-${i}"></div>
+        <img src="${item.src}" alt="${item.label}" loading="lazy"
+          onload="this.classList.add('loaded'); document.getElementById('img-load-${sectionId}-${i}').style.display='none';"
+          onerror="this.style.display='none'; var el=document.getElementById('img-load-${sectionId}-${i}'); el.className='img-error'; el.textContent='图片加载失败，请检查网络';"
+          onclick="openLightbox('${item.src}')">
+      </div>
       <div class="image-case-label"><span class="dot"></span>${item.label}</div>
     </div>
   `).join('');
@@ -868,6 +940,14 @@ function openVideoModal(sectionId, index) {
 
   // Always create a FRESH video element (reusing src on mobile is unreliable)
   container.innerHTML = '';
+
+  // Loading overlay
+  var loadingOverlay = document.createElement('div');
+  loadingOverlay.className = 'video-loading-overlay';
+  loadingOverlay.id = 'videoLoadingOverlay';
+  loadingOverlay.innerHTML = '<div class="spinner"></div><p>视频加载中，请稍候…</p>';
+  container.appendChild(loadingOverlay);
+
   var video = document.createElement('video');
   video.className = 'video-modal-player';
   video.controls = true;
@@ -882,6 +962,25 @@ function openVideoModal(sectionId, index) {
   video.oncontextmenu = function(e) { e.preventDefault(); return false; };
   video.preload = 'auto';
   video.src = item.src;
+
+  // Hide loading when enough data to play
+  video.addEventListener('canplay', function() {
+    var overlay = document.getElementById('videoLoadingOverlay');
+    if (overlay) overlay.classList.add('hidden');
+  });
+  // Show loading again if buffering
+  video.addEventListener('waiting', function() {
+    var overlay = document.getElementById('videoLoadingOverlay');
+    if (overlay) overlay.classList.remove('hidden');
+  });
+  // Error handling
+  video.addEventListener('error', function() {
+    var overlay = document.getElementById('videoLoadingOverlay');
+    if (overlay) {
+      overlay.innerHTML = '<p style="color:#ef4444;">视频加载失败，请检查网络后重试</p>';
+    }
+  });
+
   container.appendChild(video);
 
   modal.classList.add('open');
