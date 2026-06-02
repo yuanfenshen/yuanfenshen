@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>案例展示 - 元分身</title>
+<style>
+/* ═══════════════════════════════════════
+   DEEP SPACE — Glassmorphism Design System
+   Case Showcase Page
+   ═══════════════════════════════════════ */
+:root {
+  --bg-deep: #0F1118;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.10);
+  --glass-hover-border: rgba(37, 99, 235, 0.30);
+  --glass-blur: blur(12px);
+  --text-primary: #FFFFFF;
+  --text-secondary: #D1D5DB;
+  --text-muted: #9CA3AF;
+  --accent-blue: #2563EB;
+  --accent-purple: #7C3AED;
+  --gradient-primary: linear-gradient(135deg, #2563EB, #7C3AED);
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: clamp(15px, 1.1vw, 17px);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 0%, rgba(124, 58, 237, 0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 35% at 80% 60%, rgba(37, 99, 235, 0.05) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+main { position: relative; z-index: 1; }
+
+img { display: block; max-width: 100%; height: auto; }
+video { display: block; max-width: 100%; height: auto; }
+
+/* ═══════ Navigation ═══════ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.5rem 0;
+  background: rgba(15, 17, 24, 0.80);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 5vw, 4rem);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav-logo img {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover, .nav-links a.active { color: var(--text-primary); }
+
+/* ═══════ Page Header ═══════ */
+.page-header {
+  padding: 8rem 0 3rem;
+  text-align: center;
+}
+
+.page-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.page-header h1 span {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.page-header p {
+  color: #E5E7EB;
+  margin-top: 1rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* ═══════ Category Tabs ═══════ */
+.container { width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 4rem); }
+
+.tabs-wrap {
+  position: sticky;
+  top: 80px;
+  z-index: 50;
+  padding: 0.75rem 0;
+  margin-bottom: 3rem;
+  background: rgba(15, 17, 24, 0.85);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  border-radius: 100px;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  letter-spacing: 0.03em;
+}
+
+.tab-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--glass-border);
+}
+
+.tab-btn.active {
+  background: var(--gradient-primary);
+  color: #fff;
+  border-color: transparent;
+}
+
+.tab-count {
+  font-size: 0.68rem;
+  opacity: 0.65;
+  margin-left: 0.3rem;
+}
+
+/* ═══════ Case Section ═══════ */
+.case-section {
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+
+.case-section.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.case-section-header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.case-section-header h2 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.case-section-header .case-type-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.7rem;
+  border-radius: 100px;
+  margin-bottom: 0.75rem;
+}
+
+.badge-image { background: rgba(34, 197, 94, 0.08); color: #4ADE80; border: 1px solid rgba(34, 197, 94, 0.15); }
+.badge-video { background: rgba(124, 58, 237, 0.08); color: #A78BFA; border: 1px solid rgba(124, 58, 237, 0.15); }
+.badge-human { background: rgba(37, 99, 235, 0.10); color: #60A5FA; border: 1px solid rgba(37, 99, 235, 0.20); }
+
+.case-section-desc {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  max-width: 640px;
+}
+
+/* ═══════ Image Grid ═══════ */
+.image-case-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 1.25rem;
+}
+
+.image-case-item {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.image-case-item:hover {
+  border-color: var(--glass-hover-border);
+  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.08);
+}
+
+.image-case-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.image-case-item img:hover { transform: scale(1.02); }
+
+.image-case-label {
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.image-case-label .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.6);
+}
+
+/* ═══════ Video Grid ═══════ */
+.video-case-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.5rem;
+}
+
+.video-case-item {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-case-item:hover {
+  border-color: var(--glass-hover-border);
+  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.08);
+}
+
+.video-wrapper {
+  position: relative;
+  background: #000;
+  cursor: pointer;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+}
+
+.video-wrapper video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+/* ─── Play overlay (click to pop up modal) ─── */
+.video-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 17, 24, 0.25);
+  transition: opacity 0.3s ease, background 0.3s ease;
+  pointer-events: none;
+}
+
+.video-wrapper:hover .video-play-overlay {
+  background: rgba(15, 17, 24, 0.45);
+}
+
+.video-play-icon {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: rgba(37, 99, 235, 0.30);
+  backdrop-filter: blur(8px);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.video-wrapper:hover .video-play-icon {
+  transform: scale(1.12);
+  background: rgba(37, 99, 235, 0.50);
+}
+
+.video-play-icon svg {
+  width: 22px; height: 22px;
+  fill: #fff;
+  margin-left: 2px;
+}
+
+.video-case-label {
+  padding: 0.65rem 1rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--glass-border);
+}
+
+/* ═══════ Video Modal ═══════ */
+.video-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.80);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.25s ease;
+  cursor: pointer;
+}
+
+.video-modal.open { display: flex; }
+
+.video-modal-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 92vw;
+  max-height: 92vh;
+  cursor: default;
+}
+
+.video-modal-close {
+  position: absolute;
+  top: -44px;
+  right: 0;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.video-modal-close:hover { background: rgba(255, 255, 255, 0.20); }
+
+.video-modal-label {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.video-modal-player {
+  display: block;
+  max-width: 92vw;
+  max-height: 75vh;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #000;
+}
+
+/* ═══════ Lightbox ═══════ */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.92);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.lightbox.open { display: flex; }
+
+.lightbox img {
+  max-width: 92vw;
+  max-height: 92vh;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 1.5rem; right: 1.5rem;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+  z-index: 201;
+}
+
+.lightbox-close:hover { background: rgba(255, 255, 255, 0.15); }
+
+/* ═══════ Footer ═══════ */
+.footer {
+  padding: 4rem 0;
+  border-top: 1px solid var(--glass-border);
+  text-align: center;
+  margin-top: 6rem;
+}
+
+.footer-logo img {
+  height: 32px;
+  width: auto;
+  display: block;
+  margin: 0 auto 0.5rem;
+}
+
+.footer-sub { font-size: 0.8rem; color: var(--text-muted); }
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover { color: var(--accent-blue); }
+
+/* ═══════ Tablet ═══════ */
+@media (max-width: 1024px) {
+  .image-case-grid { grid-template-columns: repeat(2, 1fr); }
+  .video-case-grid { grid-template-columns: repeat(2, 1fr); }
+  .nav-links { gap: 1.2rem; }
+}
+
+/* ═══════ Phone ═══════ */
+@media (max-width: 480px) {
+  /* Base */
+  html { font-size: 16px; }
+  body { line-height: 1.6; }
+  .container { padding: 0 1rem; }
+
+  /* Navigation */
+  .nav { padding: 0.8rem 0; }
+  .nav-inner { padding: 0 1rem; }
+  .nav-logo img { height: 24px; }
+  .nav-links { gap: 0.8rem; }
+  .nav-links a { font-size: 0.7rem; }
+
+  /* Page header */
+  .page-header { padding: 6rem 0 1.5rem; }
+  .page-header h1 { font-size: 1.8rem; }
+  .page-header p { font-size: 0.9rem; padding: 0 0.5rem; color: #E5E7EB; }
+
+  /* Tabs */
+  .tabs-wrap {
+    top: 56px;
+    padding: 0.5rem 0;
+    margin-bottom: 1.5rem;
+  }
+  .tabs { gap: 0.3rem; }
+  .tab-btn {
+    font-size: 0.68rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 50px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .tab-count { font-size: 0.6rem; }
+
+  /* Case section headers */
+  .case-section-header { margin-bottom: 1.5rem; padding-bottom: 1rem; }
+  .case-section-header h2 { font-size: 1.4rem; }
+  .case-section-desc { font-size: 0.82rem; line-height: 1.6; }
+  .case-type-badge { font-size: 0.6rem; padding: 0.15rem 0.55rem; }
+
+  /* Image grid */
+  .image-case-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  .image-case-item { border-radius: var(--radius-md); }
+  .image-case-label { font-size: 0.7rem; padding: 0.55rem 0.75rem; }
+
+  /* Video grid */
+  .video-case-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .video-case-item { border-radius: var(--radius-md); }
+  .video-play-icon { width: 44px; height: 44px; }
+  .video-play-icon svg { width: 17px; height: 17px; }
+  .video-case-label { font-size: 0.68rem; padding: 0.55rem 0.75rem; }
+
+  /* Video modal */
+  .video-modal-inner { max-width: 96vw; max-height: 96vh; }
+  .video-modal-player { max-width: 96vw; max-height: 65vh; }
+  .video-modal-close { top: -40px; right: 0; }
+  .video-modal-label { font-size: 0.78rem; margin-bottom: 0.5rem; }
+
+  /* Lightbox */
+  .lightbox-close { top: 1rem; right: 1rem; width: 36px; height: 36px; font-size: 1rem; }
+
+  /* Footer */
+  .footer { padding: 2.5rem 0; margin-top: 3rem; }
+  .footer-logo img { height: 26px; }
+  .footer-links { gap: 1.2rem; flex-wrap: wrap; }
+  .footer-links a { font-size: 0.72rem; }
+  .footer-sub { font-size: 0.7rem; }
+
+  /* Background */
+  body::before {
+    background:
+      radial-gradient(ellipse 80% 35% at 30% 0%, rgba(124, 58, 237, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse 70% 30% at 70% 60%, rgba(37, 99, 235, 0.03) 0%, transparent 50%);
+  }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="logo.png" alt="元分身"></a>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="cases.html" class="active">案例展示</a></li>
+      <li><a href="services.html">服务手册</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+<div class="page-header">
+  <h1><span>案例</span>展示</h1>
+  <p>全部制作案例，按类型分类浏览。视频默认不自动播放，点击视频区域或控制按钮开始观看。</p>
+</div>
+
+<div class="tabs-wrap">
+  <div class="container">
+    <div class="tabs" id="tabs">
+      <button class="tab-btn active" data-section="ecommerce">电商图片 <span class="tab-count">7</span></button>
+      <button class="tab-btn" data-section="info-feed">产品信息流 <span class="tab-count">5</span></button>
+      <button class="tab-btn" data-section="tvc">TVC 产品广告 <span class="tab-count">5</span></button>
+      <button class="tab-btn" data-section="digital-human">AI 数字人 <span class="tab-count">2</span></button>
+      <button class="tab-btn" data-section="corporate">AI 企业宣传片 <span class="tab-count">2</span></button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ═══════ 电商图片 ═══════ -->
+  <section class="case-section active" id="ecommerce">
+    <div class="case-section-header">
+      <span class="case-type-badge badge-image">图片</span>
+      <h2>电商图片</h2>
+      <p class="case-section-desc">覆盖主图、轮播图、详情页长图。AI自动抠图、场景合成、多尺寸适配、多语种输出。支持快速换色。</p>
+    </div>
+    <div class="image-case-grid" id="ecommerce-grid"></div>
+  </section>
+
+  <!-- ═══════ 产品信息流 ═══════ -->
+  <section class="case-section" id="info-feed">
+    <div class="case-section-header">
+      <span class="case-type-badge badge-video">AI 视频</span>
+      <h2>产品信息流</h2>
+      <p class="case-section-desc">纯AI全生成模式与AI黄金开头+实拍混剪模式。适用于抖音、快手、小红书等平台信息流投放。</p>
+    </div>
+    <div class="video-case-grid" id="info-feed-grid"></div>
+  </section>
+
+  <!-- ═══════ TVC 产品广告 ═══════ -->
+  <section class="case-section" id="tvc">
+    <div class="case-section-header">
+      <span class="case-type-badge badge-video">AI 视频</span>
+      <h2>TVC 产品广告</h2>
+      <p class="case-section-desc">品牌级产品广告，AI全流程制作。脚本创意、场景搭建、产品渲染、音画合成，画面品质对标广告级标准。</p>
+    </div>
+    <div class="video-case-grid" id="tvc-grid"></div>
+  </section>
+
+  <!-- ═══════ AI数字人 ═══════ -->
+  <section class="case-section" id="digital-human">
+    <div class="case-section-header">
+      <span class="case-type-badge badge-human">AI 数字人</span>
+      <h2>AI 数字人</h2>
+      <p class="case-section-desc">真人1:1高精度克隆，文本驱动口型、表情和动作。支持单人讲解、双人互动和多语种播报三种模式。基于真人数据建模，看不出AI痕迹。</p>
+    </div>
+    <div class="video-case-grid" id="digital-human-grid"></div>
+  </section>
+
+  <!-- ═══════ AI企业宣传片 ═══════ -->
+  <section class="case-section" id="corporate">
+    <div class="case-section-header">
+      <span class="case-type-badge badge-video">AI 视频</span>
+      <h2>AI 企业宣传片</h2>
+      <p class="case-section-desc">创作型产品。AI从创意源头介入——分镜设计、场景搭建、角色渲染、音画匹配，再由专业影视人把控品牌调性。</p>
+    </div>
+    <div class="video-case-grid" id="corporate-grid"></div>
+  </section>
+
+</div>
+
+<!-- ═══════ Lightbox ═══════ -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <img src="" alt="" id="lightbox-img">
+</div>
+
+<!-- ═══════ Video Modal ═══════ -->
+<div class="video-modal" id="videoModal" onclick="closeVideoModal(event)">
+  <div class="video-modal-inner" onclick="event.stopPropagation()">
+    <button class="video-modal-close" onclick="closeVideoModal()">&times;</button>
+    <p class="video-modal-label" id="videoModalLabel"></p>
+    <div id="videoModalContainer"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-logo"><img src="logo.png" alt="元分身"></div>
+  <p class="footer-sub">拓元旗下 &middot; AI 视频与电商图片 &middot; 2026</p>
+  <div class="footer-links">
+    <a href="index.html">首页</a>
+    <a href="cases.html">案例展示</a>
+    <a href="services.html">服务手册</a>
+  </div>
+</footer>
+</main>
+
+<script>
+/* ═══════ Data ═══════ */
+const caseData = {
+  ecommerce: {
+    type: 'image',
+    title: '电商图片',
+    items: [
+      { src: 'assets/cases/ecommerce/ecom-01.png', label: '案例 1' },
+      { src: 'assets/cases/ecommerce/ecom-07.png', label: '案例 2' },
+      { src: 'assets/cases/ecommerce/ecom-06.png', label: '案例 3' },
+      { src: 'assets/cases/ecommerce/ecom-02.png', label: '案例 4' },
+      { src: 'assets/cases/ecommerce/ecom-03.png', label: '案例 5' },
+      { src: 'assets/cases/ecommerce/ecom-04.png', label: '案例 6' },
+      { src: 'assets/cases/ecommerce/ecom-05.png', label: '案例 7' },
+    ]
+  },
+  'info-feed': {
+    type: 'video',
+    title: '产品信息流',
+    items: [
+      { src: 'assets/cases/info-feed/info-feed-01.mp4', label: '信息流 1' },
+      { src: 'assets/cases/info-feed/info-feed-02.mp4', label: '信息流 2' },
+      { src: 'assets/cases/info-feed/info-feed-03.mp4', label: '信息流 3' },
+      { src: 'assets/cases/info-feed/info-feed-04.mp4', label: '信息流 4' },
+      { src: 'assets/cases/info-feed/info-feed-05.mp4', label: '信息流 5' },
+    ]
+  },
+  tvc: {
+    type: 'video',
+    title: 'TVC 产品广告',
+    items: [
+      { src: 'assets/cases/tvc/tvc-01.mp4', label: 'TVC 1' },
+      { src: 'assets/cases/tvc/tvc-02.mp4', label: 'TVC 2' },
+      { src: 'assets/cases/tvc/tvc-03.mp4', label: 'TVC 3' },
+      { src: 'assets/cases/tvc/tvc-04.mp4', label: 'TVC 4' },
+      { src: 'assets/cases/tvc/tvc-05.mp4', label: 'TVC 5' },
+    ]
+  },
+  'digital-human': {
+    type: 'video',
+    title: 'AI 数字人',
+    items: [
+      { src: 'assets/cases/digital-human/dh-01.mp4', label: '数字人案例 1' },
+      { src: 'assets/cases/digital-human/dh-02.mp4', label: '数字人案例 2' },
+    ]
+  },
+  corporate: {
+    type: 'video',
+    title: 'AI 企业宣传片',
+    items: [
+      { src: 'assets/cases/corporate/corp-01.mp4', label: '梅兰芳文化宣传视频' },
+      { src: 'assets/cases/corporate/corp-02.mp4', label: '分寸水印版' },
+    ]
+  }
+};
+
+/* ═══════ Render Cases ═══════ */
+function renderImages(sectionId, items) {
+  const grid = document.getElementById(sectionId + '-grid');
+  if (!grid) return;
+  grid.innerHTML = items.map((item, i) => `
+    <div class="image-case-item">
+      <img src="${item.src}" alt="${item.label}" loading="lazy" onclick="openLightbox('${item.src}')">
+      <div class="image-case-label"><span class="dot"></span>${item.label}</div>
+    </div>
+  `).join('');
+}
+
+function renderVideos(sectionId, items) {
+  const grid = document.getElementById(sectionId + '-grid');
+  if (!grid) return;
+  grid.innerHTML = items.map((item, i) => `
+    <div class="video-case-item">
+      <div class="video-wrapper" onclick="openVideoModal('${sectionId}', ${i})">
+        <video
+          src="${item.src}"
+          playsinline
+          webkit-playsinline
+          muted
+          preload="metadata"
+        ></video>
+        <div class="video-play-overlay">
+          <div class="video-play-icon">
+            <svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="video-case-label">${item.label}</div>
+    </div>
+  `).join('');
+}
+
+/* Initialize all sections */
+renderImages('ecommerce', caseData.ecommerce.items);
+renderVideos('info-feed', caseData['info-feed'].items);
+renderVideos('tvc', caseData.tvc.items);
+renderVideos('digital-human', caseData['digital-human'].items);
+renderVideos('corporate', caseData.corporate.items);
+
+/* ═══════ Tab Switching ═══════ */
+const tabs = document.querySelectorAll('.tab-btn');
+const sections = document.querySelectorAll('.case-section');
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.section;
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    sections.forEach(s => s.classList.remove('active'));
+    document.getElementById(target).classList.add('active');
+    // Pause all videos when switching tabs
+    document.querySelectorAll('video').forEach(v => v.pause());
+    // Update URL hash
+    history.replaceState(null, '', '#' + target);
+  });
+});
+
+/* Handle direct navigation via hash */
+function activateFromHash() {
+  const hash = window.location.hash.replace('#', '');
+  if (hash && document.getElementById(hash)) {
+    tabs.forEach(t => t.classList.remove('active'));
+    sections.forEach(s => s.classList.remove('active'));
+    const tab = document.querySelector(`[data-section="${hash}"]`);
+    if (tab) tab.classList.add('active');
+    document.getElementById(hash).classList.add('active');
+  }
+}
+activateFromHash();
+window.addEventListener('hashchange', activateFromHash);
+
+/* ═══════ Video Modal ═══════ */
+var videoModalData = null;
+
+function openVideoModal(sectionId, index) {
+  var section = caseData[sectionId];
+  if (!section || !section.items[index]) return;
+  var item = section.items[index];
+
+  videoModalData = { sectionId: sectionId, index: index };
+
+  var modal = document.getElementById('videoModal');
+  var container = document.getElementById('videoModalContainer');
+  var label = document.getElementById('videoModalLabel');
+
+  label.textContent = item.label;
+
+  // Always create a FRESH video element (reusing src on mobile is unreliable)
+  container.innerHTML = '';
+  var video = document.createElement('video');
+  video.className = 'video-modal-player';
+  video.controls = true;
+  video.playsInline = true;
+  video.setAttribute('webkit-playsinline', '');
+  video.setAttribute('x5-video-player-type', 'h5');
+  video.setAttribute('x5-video-player-fullscreen', 'true');
+  video.setAttribute('x5-video-orientation', 'portrait');
+  video.loop = true;
+  video.muted = true;
+  video.preload = 'auto';
+  video.src = item.src;
+  container.appendChild(video);
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Auto-play (user clicked thumbnail = allowed gesture)
+  var playPromise = video.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(function(e) {
+      // Some browsers still block — ignore, user can tap native controls
+      console.log('Auto-play blocked:', e.name);
+    });
+  }
+}
+
+function closeVideoModal(event) {
+  if (event && event.target && event.target.id !== 'videoModal') return;
+
+  var modal = document.getElementById('videoModal');
+  var container = document.getElementById('videoModalContainer');
+  // Kill the video element entirely
+  container.innerHTML = '';
+
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+  videoModalData = null;
+}
+
+/* ═══════ Lightbox ═══════ */
+function openLightbox(src) {
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  img.src = src;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const lb = document.getElementById('lightbox');
+  lb.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    var modal = document.getElementById('videoModal');
+    if (modal.classList.contains('open')) {
+      closeVideoModal();
+    }
+    closeLightbox();
+  }
+});
+
+</script>
+</body>
+</html>
