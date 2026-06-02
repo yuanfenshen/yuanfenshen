@@ -732,38 +732,38 @@ const caseData = {
     type: 'video',
     title: '产品信息流',
     items: [
-      { src: 'assets/cases/info-feed/info-feed-01.mp4', label: '信息流 1' },
-      { src: 'assets/cases/info-feed/info-feed-02.mp4', label: '信息流 2' },
-      { src: 'assets/cases/info-feed/info-feed-03.mp4', label: '信息流 3' },
-      { src: 'assets/cases/info-feed/info-feed-04.mp4', label: '信息流 4' },
-      { src: 'assets/cases/info-feed/info-feed-05.mp4', label: '信息流 5' },
+      { src: 'assets/cases/info-feed/info-feed-01.mp4', poster: 'assets/cases/info-feed/info-feed-01-thumb.jpg', label: '信息流 1' },
+      { src: 'assets/cases/info-feed/info-feed-02.mp4', poster: 'assets/cases/info-feed/info-feed-02-thumb.jpg', label: '信息流 2' },
+      { src: 'assets/cases/info-feed/info-feed-03.mp4', poster: 'assets/cases/info-feed/info-feed-03-thumb.jpg', label: '信息流 3' },
+      { src: 'assets/cases/info-feed/info-feed-04.mp4', poster: 'assets/cases/info-feed/info-feed-04-thumb.jpg', label: '信息流 4' },
+      { src: 'assets/cases/info-feed/info-feed-05.mp4', poster: 'assets/cases/info-feed/info-feed-05-thumb.jpg', label: '信息流 5' },
     ]
   },
   tvc: {
     type: 'video',
     title: 'TVC 产品广告',
     items: [
-      { src: 'assets/cases/tvc/tvc-01.mp4', label: 'TVC 1' },
-      { src: 'assets/cases/tvc/tvc-02.mp4', label: 'TVC 2' },
-      { src: 'assets/cases/tvc/tvc-03.mp4', label: 'TVC 3' },
-      { src: 'assets/cases/tvc/tvc-04.mp4', label: 'TVC 4' },
-      { src: 'assets/cases/tvc/tvc-05.mp4', label: 'TVC 5' },
+      { src: 'assets/cases/tvc/tvc-01.mp4', poster: 'assets/cases/tvc/tvc-01-thumb.jpg', label: 'TVC 1' },
+      { src: 'assets/cases/tvc/tvc-02.mp4', poster: 'assets/cases/tvc/tvc-02-thumb.jpg', label: 'TVC 2' },
+      { src: 'assets/cases/tvc/tvc-03.mp4', poster: 'assets/cases/tvc/tvc-03-thumb.jpg', label: 'TVC 3' },
+      { src: 'assets/cases/tvc/tvc-04.mp4', poster: 'assets/cases/tvc/tvc-04-thumb.jpg', label: 'TVC 4' },
+      { src: 'assets/cases/tvc/tvc-05.mp4', poster: 'assets/cases/tvc/tvc-05-thumb.jpg', label: 'TVC 5' },
     ]
   },
   'digital-human': {
     type: 'video',
     title: 'AI 数字人',
     items: [
-      { src: 'assets/cases/digital-human/dh-01.mp4', label: '数字人案例 1' },
-      { src: 'assets/cases/digital-human/dh-02.mp4', label: '数字人案例 2' },
+      { src: 'assets/cases/digital-human/dh-01.mp4', poster: 'assets/cases/digital-human/dh-01-thumb.jpg', label: '数字人案例 1' },
+      { src: 'assets/cases/digital-human/dh-02.mp4', poster: 'assets/cases/digital-human/dh-02-thumb.jpg', label: '数字人案例 2' },
     ]
   },
   corporate: {
     type: 'video',
     title: 'AI 企业宣传片',
     items: [
-      { src: 'assets/cases/corporate/corp-01.mp4', label: '梅兰芳文化宣传视频' },
-      { src: 'assets/cases/corporate/corp-02.mp4', label: '分寸水印版' },
+      { src: 'assets/cases/corporate/corp-01.mp4', poster: 'assets/cases/corporate/corp-01-thumb.jpg', label: '梅兰芳文化宣传视频' },
+      { src: 'assets/cases/corporate/corp-02.mp4', poster: 'assets/cases/corporate/corp-02-thumb.jpg', label: '分寸水印版' },
     ]
   }
 };
@@ -788,6 +788,7 @@ function renderVideos(sectionId, items) {
       <div class="video-wrapper" onclick="openVideoModal('${sectionId}', ${i})">
         <video
           src="${item.src}"
+          poster="${item.poster || ''}"
           playsinline
           webkit-playsinline
           muted
