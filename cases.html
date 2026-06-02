@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -59,14 +59,8 @@ main { position: relative; z-index: 1; }
 
 img { display: block; max-width: 100%; height: auto; }
 video { display: block; max-width: 100%; height: auto; }
-/* Prevent video download / long-press save on mobile */
-video {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-}
 
-/* ═══════ Navigation ═══════ */
+/* ══════ Navigation ══════ */
 .nav {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -871,7 +865,7 @@ function renderVideos(sectionId, items) {
           playsinline
           webkit-playsinline
           muted
-          preload="none"
+          preload="auto"
         ></video>
         <div class="video-play-overlay">
           <div class="video-play-icon">
@@ -952,16 +946,9 @@ function openVideoModal(sectionId, index) {
   var video = document.createElement('video');
   video.className = 'video-modal-player';
   video.controls = true;
-  video.controlsList = 'nodownload';
-  video.playsInline = true;
-  video.setAttribute('webkit-playsinline', '');
-  video.setAttribute('x5-video-player-type', 'h5');
-  video.setAttribute('x5-video-player-fullscreen', 'true');
-  video.setAttribute('x5-video-orientation', 'portrait');
   video.loop = true;
   video.muted = true;
-  video.oncontextmenu = function(e) { e.preventDefault(); return false; };
-  video.preload = 'metadata';
+  video.preload = 'auto';
   video.src = item.src;
 
   // Hide loading when video actually starts playing
