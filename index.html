@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>元分身 - AI视频与电商图片</title>
+<style>
+/* ═══════════════════════════════════════
+   DEEP SPACE — Glassmorphism Design System
+   深空黑 + 玻璃拟态 + 蓝紫渐变
+   Fonts: System UI stack — native, fast, modern
+   ═══════════════════════════════════════ */
+:root {
+  --bg-deep: #0F1118;
+  --bg-surface: rgba(255, 255, 255, 0.03);
+  --bg-elevated: rgba(255, 255, 255, 0.05);
+  --bg-hover: rgba(255, 255, 255, 0.08);
+
+  --text-primary: #FFFFFF;
+  --text-secondary: #D1D5DB;
+  --text-muted: #9CA3AF;
+
+  --accent-blue: #2563EB;
+  --accent-purple: #7C3AED;
+  --accent-glow-blue: rgba(37, 99, 235, 0.15);
+  --accent-glow-purple: rgba(124, 58, 237, 0.12);
+
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.10);
+  --glass-hover-border: rgba(37, 99, 235, 0.30);
+  --glass-blur: blur(12px);
+
+  --gradient-primary: linear-gradient(135deg, #2563EB, #7C3AED);
+  --gradient-text: linear-gradient(135deg, #2563EB, #7C3AED);
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  --font-display: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-body: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-smooth: 0.6s var(--ease-out-expo);
+  --transition-fast: 0.3s var(--ease-out-quart);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: clamp(15px, 1.1vw, 17px);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.65;
+  overflow-x: hidden;
+  letter-spacing: 0.01em;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 0%, rgba(124, 58, 237, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 40%, rgba(37, 99, 235, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(37, 99, 235, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image:
+    linear-gradient(rgba(37, 99, 235, 0.6) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 58, 237, 0.4) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+main { position: relative; z-index: 1; }
+
+/* ═══════ Typography ═══════ */
+.display { font-family: var(--font-display); }
+
+.display-lg { font-size: clamp(2.4rem, 5.5vw, 4.5rem); font-weight: 800; letter-spacing: -0.035em; }
+.display-md { font-size: clamp(2rem, 4.5vw, 3.8rem); font-weight: 700; letter-spacing: -0.025em; }
+.display-sm { font-size: clamp(1.6rem, 3vw, 2.5rem); font-weight: 700; letter-spacing: -0.02em; }
+
+.gradient-text {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent-blue);
+  margin-bottom: 1rem;
+}
+
+.body-text {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+.body-text strong { color: var(--text-primary); font-weight: 600; }
+
+/* ═══════ Layout ═══════ */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 5vw, 4rem);
+}
+
+.section {
+  padding: clamp(4rem, 10vw, 8rem) 0;
+  position: relative;
+}
+
+.decorative-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, rgba(37, 99, 235, 0.4), rgba(124, 58, 237, 0.4), transparent);
+  margin: 0 auto 3rem;
+}
+
+/* ═══════ Navigation ═══════ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.3rem 0;
+  transition: background 0.4s ease, padding 0.4s ease;
+}
+
+.nav.scrolled {
+  background: rgba(15, 17, 24, 0.85);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 5vw, 4rem);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav-logo img {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover { color: var(--text-primary); }
+
+.nav-cta {
+  font-size: 0.76rem !important;
+  font-weight: 600 !important;
+  padding: 0.5rem 1.2rem;
+  border-radius: 100px;
+  background: var(--gradient-primary);
+  color: #fff !important;
+  border: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nav-cta:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35);
+}
+
+/* ═══════ Hero — Two Column ═══════ */
+.hero {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  padding-top: 5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: center;
+  width: 100%;
+}
+
+.hero-bg-element {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero-bg-element:nth-child(1) {
+  width: 600px; height: 600px;
+  top: -200px; right: 5%;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.10) 0%, transparent 70%);
+  animation: hero-float-1 22s ease-in-out infinite;
+}
+
+.hero-bg-element:nth-child(2) {
+  width: 280px; height: 280px;
+  bottom: 10%; left: 3%;
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  animation: hero-float-2 20s ease-in-out infinite;
+}
+
+@keyframes hero-float-1 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(-30px, 20px) rotate(1.5deg); }
+  66% { transform: translate(20px, -15px) rotate(-1deg); }
+}
+
+@keyframes hero-float-2 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(15px, -25px) rotate(-0.5deg); }
+}
+
+.hero-left { position: relative; z-index: 2; }
+
+.hero-eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.25rem;
+}
+
+.hero-title { margin-bottom: 1.5rem; color: var(--text-primary); }
+
+.hero-title-line {
+  display: block;
+  overflow: hidden;
+}
+
+.hero-title-line span {
+  display: block;
+  animation: reveal-text 1.2s var(--ease-out-expo) forwards;
+}
+
+.hero-title-line:nth-child(2) span { animation-delay: 0.12s; }
+
+@keyframes reveal-text {
+  from { transform: translateY(110%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.hero-desc {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 400;
+  max-width: 440px;
+  line-height: 1.75;
+  margin-bottom: 2.5rem;
+}
+
+.hero-subtitle span {
+  font-size: clamp(1.05rem, 2vw, 1.55rem);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.hero-cta {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.75rem 2rem;
+  border-radius: 100px;
+  background: var(--gradient-primary);
+  color: #fff;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-cta:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.35);
+}
+
+.hero-right {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-illustration {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+}
+
+/* ═══════ Section Header ═══════ */
+.section-header {
+  text-align: center;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.section-header .section-label { margin-bottom: 0.75rem; }
+.section-header .display-md { margin-bottom: 1rem; }
+
+.section-header p {
+  color: var(--text-secondary);
+  font-weight: 400;
+  max-width: 540px;
+  margin: 0 auto;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* ═══════ Service Cards — 3-col grid with icon ═══════ */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.service-card {
+  background: var(--glass-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  padding: clamp(1.5rem, 3vw, 2.2rem);
+  transition: all 0.4s var(--ease-out-expo);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card:hover {
+  border-color: var(--glass-hover-border);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 60px rgba(37, 99, 235, 0.08);
+}
+
+.service-card-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  background: var(--gradient-primary);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}  
+
+.service-card-icon svg {
+  width: 24px; height: 24px;
+  fill: none;
+  stroke: rgba(255,255,255,0.9);
+  stroke-width: 2;
+}
+
+.service-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.service-type {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.7rem;
+  border-radius: 100px;
+  margin-bottom: 0.9rem;
+  width: fit-content;
+}
+
+.service-type.image { background: rgba(34, 197, 94, 0.08); color: #4ADE80; border: 1px solid rgba(34, 197, 94, 0.18); }
+.service-type.ai-video { background: rgba(124, 58, 237, 0.08); color: #A78BFA; border: 1px solid rgba(124, 58, 237, 0.18); }
+.service-type.ai-human { background: rgba(37, 99, 235, 0.10); color: #60A5FA; border: 1px solid rgba(37, 99, 235, 0.22); }
+
+.service-desc {
+  color: var(--text-secondary);
+  font-weight: 400;
+  line-height: 1.7;
+  font-size: 0.85rem;
+  flex: 1;
+}
+
+.service-features {
+  list-style: none;
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.service-features li {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  padding: 0.22rem 0.6rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 100px;
+  border: 1px solid var(--glass-border);
+}
+
+.service-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 1.1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-blue);
+  text-decoration: none;
+  transition: gap 0.3s ease;
+}
+
+.service-card-link:hover { gap: 0.6rem; }
+.service-card-link svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+.service-client {
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--glass-border);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  line-height: 1.5;
+}
+.service-client strong {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* ═══════ Distinction ═══════ */
+.distinction-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--glass-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  backdrop-filter: var(--glass-blur);
+}
+
+.distinction-card {
+  background: var(--glass-bg);
+  padding: clamp(2rem, 5vw, 3.5rem);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s ease;
+  backdrop-filter: var(--glass-blur);
+}
+
+.distinction-card:hover { background: rgba(255, 255, 255, 0.07); }
+
+.distinction-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 0;
+  transition: height 0.5s var(--ease-out-expo);
+}
+
+.distinction-card:first-child::before { background: var(--accent-purple); }
+.distinction-card:last-child::before { background: var(--accent-blue); }
+.distinction-card:hover::before { height: 100%; }
+
+.distinction-icon { font-size: 1.8rem; margin-bottom: 1.25rem; opacity: 0.7; }
+
+.distinction-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.distinction-card p {
+  color: var(--text-secondary);
+  font-weight: 400;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.distinction-tag {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 100px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 1.25rem;
+}
+
+.tag-ai-video {
+  background: rgba(124, 58, 237, 0.10);
+  color: #A78BFA;
+  border: 1px solid rgba(124, 58, 237, 0.20);
+}
+
+.tag-digital-human {
+  background: rgba(37, 99, 235, 0.12);
+  color: #60A5FA;
+  border: 1px solid rgba(37, 99, 235, 0.25);
+}
+
+/* ═══════ Overview Table ═══════ */
+.overview-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  background: var(--glass-bg);
+}
+
+.overview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.overview-table th {
+  text-align: left;
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.overview-table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--glass-border);
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.overview-table tr:last-child td { border-bottom: none; }
+.overview-table tr { transition: background 0.25s ease; }
+.overview-table tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
+
+.overview-table .num {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.overview-table .name { color: var(--text-primary); font-weight: 600; }
+
+.table-link {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease, background 0.3s ease;
+  padding: 0.15rem 0;
+  border-bottom: 1px solid transparent;
+}
+
+.table-link:hover {
+  color: var(--accent-blue);
+  border-bottom-color: rgba(37, 99, 235, 0.5);
+}
+
+.table-link::after {
+  content: ' →';
+  opacity: 0;
+  font-size: 0.75rem;
+  margin-left: 0.25rem;
+  transition: opacity 0.3s ease;
+}
+
+.table-link:hover::after { opacity: 1; }
+
+.type-badge {
+  display: inline-block;
+  padding: 0.22rem 0.65rem;
+  border-radius: 100px;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.type-badge.image { background: rgba(34, 197, 94, 0.08); color: #4ADE80; }
+.type-badge.ai-video { background: rgba(124, 58, 237, 0.08); color: #A78BFA; }
+.type-badge.ai-human { background: rgba(37, 99, 235, 0.10); color: #60A5FA; }
+
+/* ═══════ Advantages ═══════ */
+.advantages-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--glass-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  backdrop-filter: var(--glass-blur);
+}
+
+.advantage-card {
+  background: var(--glass-bg);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  transition: background 0.4s ease;
+  backdrop-filter: var(--glass-blur);
+}
+
+.advantage-card:hover { background: rgba(255, 255, 255, 0.07); }
+
+.advantage-card h4 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  color: var(--text-primary);
+}
+
+.advantage-card p {
+  color: var(--text-secondary);
+  font-weight: 400;
+  line-height: 1.65;
+  font-size: 0.9rem;
+}
+
+.advantage-card .adv-icon {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  display: block;
+  opacity: 0.4;
+}
+
+/* ═══════ Scenarios ═══════ */
+.scenarios-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.scenario-item {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.3s ease;
+}
+
+.scenario-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--glass-hover-border);
+  transform: translateY(-1px);
+}
+
+.scenario-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--accent-blue);
+  box-shadow: 0 0 6px rgba(37, 99, 235, 0.4);
+}
+
+.scenario-item span {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.scenario-item strong { color: var(--text-primary); font-weight: 600; }
+
+/* ═══════ Process ═══════ */
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--glass-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  backdrop-filter: var(--glass-blur);
+}
+
+.process-step {
+  background: var(--glass-bg);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  position: relative;
+  transition: background 0.4s ease;
+  backdrop-filter: var(--glass-blur);
+}
+
+.process-step:hover { background: rgba(255, 255, 255, 0.07); }
+
+.process-step-num {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 800;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.35;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.process-step h4 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.process-step p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* ═══════ Tech ═══════ */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.tech-item {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.tech-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--glass-hover-border);
+  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.06);
+}
+
+.tech-item h5 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.tech-item p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* ═══════ Footer ═══════ */
+.footer {
+  padding: 4rem 0;
+  border-top: 1px solid var(--glass-border);
+  text-align: center;
+}
+
+.footer-logo img {
+  height: 32px;
+  width: auto;
+  display: block;
+  margin: 0 auto 0.5rem;
+}
+
+.footer-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover { color: var(--accent-blue); }
+
+/* ═══════ Scroll Animations ═══════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ═══════ Tablet ═══════ */
+@media (max-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; }
+  .hero-right { order: -1; }
+  .hero-illustration { max-width: 300px; }
+  .hero-desc { max-width: 100%; }
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .process-steps { grid-template-columns: repeat(2, 1fr); }
+  .advantages-grid { grid-template-columns: 1fr; }
+  .tech-grid { grid-template-columns: repeat(2, 1fr); }
+  .nav-links { gap: 1.2rem; }
+}
+
+/* ═══════ Phone — 480px and below ═══════ */
+@media (max-width: 480px) {
+  /* Base */
+  html { font-size: 16px; }
+  body { line-height: 1.6; }
+  .container { padding: 0 1rem; }
+  .section { padding: 3rem 0; }
+
+  /* Typography */
+  .display-lg { font-size: 1.55rem; line-height: 1.25; }
+  .display-md { font-size: 1.35rem; }
+  .display-sm { font-size: 1.15rem; }
+  .body-text { font-size: 0.9rem; }
+
+  /* Navigation */
+  .nav { padding: 0.8rem 0; }
+  .nav.scrolled { padding: 0.5rem 0; }
+  .nav-inner { padding: 0 1rem; }
+  .nav-logo img { height: 24px; }
+  .nav-links { gap: 0.8rem; }
+  .nav-links a { font-size: 0.7rem; }
+  .nav-cta { display: none; }
+
+  /* Hero */
+  .hero {
+    min-height: auto;
+    padding: 6rem 0 2.5rem;
+    text-align: center;
+  }
+  .hero-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .hero-right { order: -1; }
+  .hero-illustration { max-width: 180px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 0.58rem; letter-spacing: 0.12em; margin-bottom: 0.5rem; }
+  .hero-title { margin-bottom: 0.65rem; }
+  .hero-title-line span { letter-spacing: -0.01em; }
+  .hero-desc { font-size: 0.78rem; line-height: 1.55; margin: 0 auto 1.25rem; max-width: 100%; }
+  .hero-cta { font-size: 0.72rem; padding: 0.55rem 1.25rem; }
+  .hero-subtitle span { font-size: 0.8rem; font-weight: 400; }
+
+  /* Service cards */
+  .services-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+  .service-card { padding: 1.25rem; border-radius: var(--radius-md); }
+  .service-card-icon { width: 38px; height: 38px; border-radius: 8px; margin-bottom: 0.75rem; }
+  .service-card-icon svg { width: 18px; height: 18px; }
+  .service-card h3 { font-size: 1.1rem; }
+  .service-desc { font-size: 0.82rem; }
+  .service-type { font-size: 0.6rem; padding: 0.18rem 0.55rem; margin-bottom: 0.6rem; }
+  .service-features { gap: 0.25rem; }
+  .service-features li { font-size: 0.65rem; padding: 0.18rem 0.5rem; }
+  .service-card-link { font-size: 0.7rem; margin-top: 0.85rem; }
+  .service-client { font-size: 0.64rem; margin-top: 0.45rem; padding-top: 0.4rem; }
+
+  /* Distinction */
+  .distinction-grid { grid-template-columns: 1fr; border-radius: var(--radius-md); }
+  .distinction-card { padding: 1.5rem; }
+  .distinction-card h3 { font-size: 1.2rem; }
+  .distinction-card p { font-size: 0.85rem; }
+  .distinction-icon { font-size: 1.3rem; margin-bottom: 0.75rem; }
+
+  /* Overview table */
+  .overview-table-wrap { border-radius: var(--radius-md); }
+  .overview-table { font-size: 0.78rem; }
+  .overview-table th { padding: 0.7rem 0.75rem; font-size: 0.6rem; }
+  .overview-table td { padding: 0.7rem 0.75rem; }
+  .overview-table .num { font-size: 1rem; }
+
+  /* Advantages */
+  .advantages-grid { grid-template-columns: 1fr; border-radius: var(--radius-md); }
+  .advantage-card { padding: 1.25rem; }
+  .advantage-card h4 { font-size: 1rem; }
+  .advantage-card p { font-size: 0.82rem; }
+  .adv-icon { font-size: 1.2rem; margin-bottom: 0.6rem; }
+
+  /* Scenarios */
+  .scenarios-list { grid-template-columns: 1fr; gap: 0.5rem; }
+  .scenario-item { padding: 0.85rem 1rem; border-radius: 8px; }
+  .scenario-item span { font-size: 0.82rem; }
+  .scenario-dot { width: 6px; height: 6px; }
+
+  /* Process */
+  .process-steps { grid-template-columns: repeat(2, 1fr); border-radius: var(--radius-md); }
+  .process-step { padding: 1.1rem; }
+  .process-step-num { font-size: 2rem; margin-bottom: 0.5rem; }
+  .process-step h4 { font-size: 0.9rem; }
+  .process-step p { font-size: 0.72rem; }
+
+  /* Tech */
+  .tech-grid { grid-template-columns: 1fr; gap: 0.5rem; }
+  .tech-item { padding: 1rem; border-radius: 8px; }
+  .tech-item h5 { font-size: 0.95rem; }
+  .tech-item p { font-size: 0.75rem; }
+
+  /* Section header */
+  .section-header { margin-bottom: 2rem; }
+  .section-label { font-size: 0.62rem; letter-spacing: 0.15em; margin-bottom: 0.5rem; }
+  .section-header p { font-size: 0.85rem; }
+
+  /* Decorative */
+  .decorative-line { height: 40px; margin-bottom: 2rem; }
+
+  /* Footer */
+  .footer { padding: 2.5rem 0; margin-top: 2rem; }
+  .footer-logo img { height: 26px; }
+  .footer-links { gap: 1.2rem; flex-wrap: wrap; }
+  .footer-links a { font-size: 0.72rem; }
+  .footer-sub { font-size: 0.7rem; }
+
+  /* Background */
+  body::before {
+    background:
+      radial-gradient(ellipse 80% 40% at 30% 0%, rgba(124, 58, 237, 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse 70% 30% at 70% 60%, rgba(37, 99, 235, 0.04) 0%, transparent 50%);
+  }
+
+  /* Table link tap target */
+  .table-link { display: inline-block; padding: 0.25rem 0; min-height: 44px; line-height: 44px; }
+
+  /* Services manual CTA */
+  .manual-cta-title { font-size: 1.15rem !important; }
+  .manual-cta-desc { font-size: 0.78rem !important; line-height: 1.55 !important; }
+  .manual-cta-btn { font-size: 0.7rem !important; padding: 0.5rem 1.2rem !important; }
+  .manual-cta-emoji { font-size: 3rem !important; }
+}
+</style>
+</head>
+<body>
+<div class="grid-overlay"></div>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="logo.png" alt="元分身">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">服务</a></li>
+      <li><a href="cases.html">案例</a></li>
+      <li><a href="services.html">手册</a></li>
+      <li><a href="#process" class="nav-cta">合作流程</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═══════ Hero — Two Column ═══════ -->
+<section class="hero section">
+  <div class="hero-bg-element"></div>
+  <div class="hero-bg-element"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <p class="hero-eyebrow">YuanFenShen · Tuoyuan</p>
+        <h1 class="hero-title display display-lg">
+          <span class="hero-title-line"><span style="white-space:nowrap;">AI 视频制作专家</span></span>
+          <span class="hero-title-line hero-subtitle"><span>为企业提供全链路 AI 内容服务</span></span>
+        </h1>
+        <p class="hero-desc">
+          元分身是拓元集团旗下专注于 AI 直播与 AI 视频领域的技术公司，核心技术底座完全自主研发。
+          两年 AI 直播实战积累，深度赋能视频制作赛道。从电商图片到品牌级 AI 宣传片，全链路交付。
+        </p>
+        <a href="cases.html" class="hero-cta">
+          查看案例
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+      </div>
+      <div class="hero-right">
+        <!-- Isometric 3D AI Platform Illustration -->
+        <svg class="hero-illustration" viewBox="0 0 520 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="hg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#7C3AED"/></linearGradient>
+            <linearGradient id="hg2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#2563EB"/></linearGradient>
+            <linearGradient id="hg3" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#A78BFA"/></linearGradient>
+          </defs>
+          <!-- Platform base -->
+          <polygon points="260,380 420,300 260,220 100,300" fill="rgba(37,99,235,0.08)" stroke="rgba(124,58,237,0.2)" stroke-width="1.5"/>
+          <polygon points="260,380 420,300 420,280 260,360" fill="rgba(124,58,237,0.06)" stroke="rgba(124,58,237,0.15)" stroke-width="1"/>
+          <!-- Left wall -->
+          <polygon points="260,380 100,300 100,280 260,360" fill="rgba(37,99,235,0.04)" stroke="rgba(37,99,235,0.12)" stroke-width="1"/>
+          <!-- Center cube -->
+          <polygon points="260,280 340,240 260,200 180,240" fill="rgba(37,99,235,0.15)" stroke="url(#hg1)" stroke-width="1.5"/>
+          <polygon points="260,280 340,240 340,220 260,260" fill="rgba(124,58,237,0.1)" stroke="url(#hg2)" stroke-width="1"/>
+          <polygon points="260,280 180,240 180,220 260,260" fill="rgba(37,99,235,0.08)" stroke="url(#hg3)" stroke-width="1"/>
+          <!-- Top cube flat -->
+          <polygon points="260,200 340,160 260,120 180,160" fill="rgba(37,99,235,0.18)" stroke="url(#hg1)" stroke-width="1.5"/>
+          <polygon points="260,200 340,160 340,140 260,180" fill="rgba(124,58,237,0.12)" stroke="url(#hg2)" stroke-width="1"/>
+          <polygon points="260,200 180,160 180,140 260,180" fill="rgba(37,99,235,0.1)" stroke="url(#hg3)" stroke-width="1"/>
+          <!-- Small floating elements -->
+          <rect x="350" y="140" width="16" height="16" rx="3" fill="rgba(124,58,237,0.12)" stroke="rgba(124,58,237,0.25)" stroke-width="1" transform="rotate(15,358,148)"/>
+          <rect x="170" y="230" width="10" height="10" rx="2" fill="rgba(37,99,235,0.12)" stroke="rgba(37,99,235,0.25)" stroke-width="1" transform="rotate(-10,175,235)"/>
+          <circle cx="320" cy="100" r="5" fill="rgba(124,58,237,0.15)" stroke="rgba(124,58,237,0.3)" stroke-width="1"/>
+          <circle cx="200" cy="100" r="4" fill="rgba(37,99,235,0.12)" stroke="rgba(37,99,235,0.25)" stroke-width="1"/>
+          <!-- Connecting lines -->
+          <line x1="320" y1="105" x2="350" y2="148" stroke="rgba(124,58,237,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="200" y1="104" x2="175" y2="230" stroke="rgba(37,99,235,0.12)" stroke-width="1" stroke-dasharray="3,4"/>
+          <!-- Glow orbits -->
+          <ellipse cx="260" cy="160" rx="100" ry="30" fill="none" stroke="rgba(124,58,237,0.08)" stroke-width="1" transform="rotate(-15,260,160)"/>
+          <ellipse cx="260" cy="160" rx="80" ry="22" fill="none" stroke="rgba(37,99,235,0.1)" stroke-width="1" transform="rotate(-15,260,160)"/>
+          <!-- Data flow dots -->
+          <circle cx="260" cy="160" r="3" fill="#2563EB" opacity="0.6"/>
+          <circle cx="340" cy="150" r="2.5" fill="#7C3AED" opacity="0.5"/>
+          <circle cx="180" cy="150" r="2.5" fill="#2563EB" opacity="0.5"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Services — Center Header + 3-col Grid, First Card White ═══════ -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Services</p>
+      <h2 class="display display-md">服务矩阵</h2>
+      <p>三大板块，六项服务。从电商图片到品牌级 AI 宣传片，全链路覆盖。</p>
+    </div>
+
+    <div class="services-grid reveal">
+
+      <!-- 01 电商图片 -->
+      <div class="service-card">
+        <div class="service-card-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M2 17l5-5 3 3 4-4 8 8"/></svg>
+        </div>
+        <span class="service-type image">AI 图片</span>
+        <h3>电商图片</h3>
+        <p class="service-desc">提供电商店铺所需的全部视觉素材：主图、轮播图、详情页长图。AI自动抠图场景合成、多尺寸适配、多语种输出。支持快速换色，国内跨境平台自动适配规格。</p>
+        <ul class="service-features">
+          <li>国内 + 跨境</li><li>快速换色</li><li>多尺寸适配</li>
+        </ul>
+        <p class="service-client">适合：<strong>电商卖家、品牌方、跨境商家</strong> &mdash; 从单品上架到整店视觉方案</p>
+        <a href="cases.html#ecommerce" class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+
+      <!-- 02 产品信息流 -->
+      <div class="service-card">
+        <div class="service-card-icon">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21"/></svg>
+        </div>
+        <span class="service-type ai-video">AI 视频</span>
+        <h3>产品信息流</h3>
+        <p class="service-desc">两种交付形式：纯AI全生成，从文案到画面完整成片；AI黄金开头15秒 + 实拍混剪，兼顾起量与品牌真实性。适配抖音/快手/小红书。</p>
+        <ul class="service-features"><li>纯AI全生成</li><li>黄金开头+混剪</li><li>15秒起量爆款</li></ul>
+        <p class="service-client">适合：<strong>电商投流团队、DTC品牌</strong> &mdash; 批量产出信息流素材</p>
+        <a href="cases.html#info-feed" class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+
+      <!-- 03 口播+产品混剪 -->
+      <div class="service-card">
+        <div class="service-card-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="4"/></svg>
+        </div>
+        <span class="service-type ai-video">AI 视频</span>
+        <h3>口播 + 产品混剪</h3>
+        <p class="service-desc">真人或数字人出镜主讲，讲解口播与产品画面有机融合，交付完整混剪成片。关键卖点处穿插产品特写与使用场景，配字幕、转场和背景音乐。</p>
+        <ul class="service-features"><li>人物讲解主线</li><li>产品穿插展示</li><li>字幕+转场+BGM</li></ul>
+        <p class="service-client">适合：<strong>产品营销、MCN机构、知识博主</strong> &mdash; 产品解说与种草测评</p>
+        <a href="cases.html#info-feed" class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+
+      <!-- 04 TVC产品广告 -->
+      <div class="service-card">
+        <div class="service-card-icon">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"/></svg>
+        </div>
+        <span class="service-type ai-video">AI 视频</span>
+        <h3>TVC 产品广告</h3>
+        <p class="service-desc">面向品牌电商的产品级广告片。交付具有TVC质感的完整成片：脚本创意、场景画面、产品渲染、音画合成。画面品质对标广告级标准，制作周期和成本远低于传统影视。</p>
+        <ul class="service-features"><li>品牌级质感</li><li>AI全流程</li><li>新品发布</li></ul>
+        <p class="service-client">适合：<strong>品牌方、电商运营</strong> &mdash; 品牌广告投放与新品推广</p>
+        <a href="cases.html#tvc" class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+
+      <!-- 05 AI数字人（单人/双人/多语种） -->
+      <div class="service-card">
+        <div class="service-card-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <span class="service-type ai-human">AI 数字人</span>
+        <h3>AI 数字人（单人/双人/多语种）</h3>
+        <p class="service-desc">对真人1:1高精度克隆建模，交付高度还原真人形象的数字人视频，看不出AI痕迹。一次建模持续产出。支持单人讲解、双人互动、多语种播报三种模式。</p>
+        <ul class="service-features"><li>单人模式</li><li>双人模式</li><li>多语种播报</li><li>一次建模持续产出</li></ul>
+        <p class="service-client">适合：<strong>品牌方、MCN、企业培训、跨境电商</strong> &mdash; 需真人形象但不想反复拍摄</p>
+        <a href="cases.html#digital-human" class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+
+      <!-- 06 AI企业宣传片 -->
+      <div class="service-card">
+        <div class="service-card-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="14" rx="2"/><polyline points="7 21 12 17 17 21"/></svg>
+        </div>
+        <span class="service-type ai-video">AI 视频</span>
+        <h3>AI 企业宣传片</h3>
+        <p class="service-desc">品牌级AI宣传片创作服务。交付既能打动观众、又符合品牌标准的完整广告片，包含分镜创意、场景画面、角色渲染、音画合成，由专业影视团队把控品质和品牌调性。</p>
+        <ul class="service-features"><li>品牌级叙事</li><li>AI+专业品质</li><li>中小企业友好</li></ul>
+        <p class="service-client">适合：<strong>中小企业、品牌市场部</strong> &mdash; 高性价比获得品牌级宣传片</p>
+        <a href="cases.html#corporate" class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Distinction ═══════ -->
+<section class="section" style="padding-top: 2rem;">
+  <div class="container">
+    <div class="decorative-line"></div>
+    <p class="section-label" style="text-align:center;">Important Note</p>
+    <h2 class="display display-sm" style="text-align:center; margin-bottom: 3rem;">
+      AI 视频与 AI 数字人<br>是两种不同的技术
+    </h2>
+    <div class="distinction-grid reveal">
+      <div class="distinction-card">
+        <div class="distinction-icon">&#9675;</div>
+        <h3>AI 视频中的「数字人」</h3>
+        <p>画面完全由 AI 生成，包括人物的面部。观众能辨认出 AI 制作的特征——皮肤质感、表情细节带有明显的 AI 痕迹。适合信息流投放、创意视频等对真实性要求不高的场景。</p>
+        <span class="distinction-tag tag-ai-video">AI 生成画面</span>
+      </div>
+      <div class="distinction-card">
+        <div class="distinction-icon">&#9679;</div>
+        <h3>元分身 AI 数字人</h3>
+        <p>先对真人进行高精度数据采集和建模，再由 AI 驱动。人脸来自真人，不是 AI 凭空生成，看不出假人感。适合品牌代言、企业培训、多语种播报等需要真实可信形象的场景。</p>
+        <span class="distinction-tag tag-digital-human">真人数据驱动</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Overview Table ═══════ -->
+<section class="section" id="overview" style="padding-top: 2rem;">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Overview</p>
+      <h2 class="display display-sm">服务总览</h2>
+    </div>
+    <div class="overview-table-wrap reveal">
+      <table class="overview-table">
+        <thead>
+          <tr>
+            <th style="width:60px;">#</th><th>服务</th><th>类型</th><th>适用场景</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="num">01</span></td><td class="name"><a href="cases.html#ecommerce" class="table-link">电商图片（国内 / 跨境）</a></td><td><span class="type-badge image">图片</span></td><td>电商卖家、整店视觉方案</td></tr>
+          <tr><td><span class="num">02</span></td><td class="name"><a href="cases.html#info-feed" class="table-link">产品信息流</a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>信息流投放、抖音/快手/小红书</td></tr>
+          <tr><td><span class="num">03</span></td><td class="name"><a href="cases.html#info-feed" class="table-link">口播 + 产品混剪</a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>产品解说、种草测评</td></tr>
+          <tr><td><span class="num">04</span></td><td class="name"><a href="cases.html#tvc" class="table-link">TVC 产品广告</a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>品牌电商广告投放、新品发布</td></tr>
+          <tr><td><span class="num">05</span></td><td class="name"><a href="cases.html#digital-human" class="table-link">AI 数字人（单人/双人/多语种）</a></td><td><span class="type-badge ai-human">AI 数字人</span></td><td>品牌IP、培训内宣、双人访谈、跨境电商多语种</td></tr>
+          <tr><td><span class="num">06</span></td><td class="name"><a href="cases.html#corporate" class="table-link">AI 企业宣传片</a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>品牌形象宣传片、企业年度宣传</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Advantages ═══════ -->
+<section class="section" id="advantages" style="padding-top: 2rem;">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Why Us</p>
+      <h2 class="display display-sm">核心优势</h2>
+    </div>
+    <div class="advantages-grid reveal">
+      <div class="advantage-card">
+        <span class="adv-icon">&#9678;</span>
+        <h4>技术自研</h4>
+        <p>拓元集团是 AI 技术公司，数字人引擎、视频生成、语音合成均为自有技术栈，非第三方封装。</p>
+      </div>
+      <div class="advantage-card">
+        <span class="adv-icon">&#9632;</span>
+        <h4>直播实战验证</h4>
+        <p>数字人 7&times;24 小时不间断直播、低延迟驱动、多平台并发——这些能力在 AI 直播业务中运行了两年，迁移到视频制作有真实商业场景数据支撑。</p>
+      </div>
+      <div class="advantage-card">
+        <span class="adv-icon">&#9674;</span>
+        <h4>AI企业宣传片独家</h4>
+        <p>品牌级 AI 叙事制作能力在目前市场中具有稀缺性。传统制作周期长成本高，我们能以更高效率交付同等甚至更高质感的宣传片。</p>
+      </div>
+      <div class="advantage-card">
+        <span class="adv-icon">&#9650;</span>
+        <h4>全链路覆盖</h4>
+        <p>从短视频批量生产到品牌级宣传片，加上电商全套图片生成，视频和图片两大类内容需求一站覆盖，客户无需对接多家供应商。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Scenarios ═══════ -->
+<section class="section" style="padding-top: 2rem;">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Scenarios</p>
+      <h2 class="display display-sm">客户场景对照</h2>
+    </div>
+    <div class="scenarios-list reveal">
+      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>电商投放</strong> &mdash; 服务2、3，适合信息流批量投放</span></div>
+      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>电商店铺装修</strong> &mdash; 服务1，主图+轮播图+详情页一站式出图，国内跨境均覆盖</span></div>
+      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>TVC 产品广告</strong> &mdash; 服务4，品牌级产品广告片</span></div>
+      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>跨境电商</strong> &mdash; 服务5多语种模式，一个数字人覆盖多语种市场；服务1，多平台多语种图片适配</span></div>
+      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>品牌宣传片</strong> &mdash; 服务6，AI企业宣传片</span></div>
+      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>品牌代言/高规格活动</strong> &mdash; 服务5，高保真数字人</span></div>
+      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>MCN / 账号矩阵</strong> &mdash; 服务3、5，持续产出内容，不依赖真人每次出镜</span></div>
+      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>企业培训/内宣</strong> &mdash; 服务5，数字人单人/双人模式均可替代真人重复拍摄</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Process ═══════ -->
+<section class="section" id="process" style="padding-top: 2rem;">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Process</p>
+      <h2 class="display display-sm">合作流程</h2>
+    </div>
+    <div class="process-steps reveal">
+      <div class="process-step">
+        <div class="process-step-num">01</div>
+        <h4>需求沟通</h4>
+        <p>明确用途、体量、预算区间</p>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">02</div>
+        <h4>方案报价</h4>
+        <p>出具服务方案和正式报价</p>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">03</div>
+        <h4>制作交付</h4>
+        <p>按计划完成制作，中间可随时审片调整</p>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">04</div>
+        <h4>验收结算</h4>
+        <p>逐条验收，确认后交付成片</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Tech ═══════ -->
+<section class="section" style="padding-top: 2rem;">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Technology</p>
+      <h2 class="display display-sm">技术能力</h2>
+      <p>基于拓元自研 AI 技术底座</p>
+    </div>
+    <div class="tech-grid reveal">
+      <div class="tech-item">
+        <h5>数字人驱动</h5>
+        <p>TTS 语音合成、口型 / 表情 / 动作生成、实时渲染、双人多角色交互驱动</p>
+      </div>
+      <div class="tech-item">
+        <h5>AI 视频生成</h5>
+        <p>文生视频、图生视频、风格迁移、场景合成</p>
+      </div>
+      <div class="tech-item">
+        <h5>AI 图片生成</h5>
+        <p>文生图、图生图、智能抠图、场景合成、多尺寸自适应输出</p>
+      </div>
+      <div class="tech-item">
+        <h5>多语种</h5>
+        <p>AI 翻译脚本、多语种语音合成、嘴型同步</p>
+      </div>
+      <div class="tech-item">
+        <h5>高精度建模</h5>
+        <p>4D 扫描、NeRF 建模、1:1 真人克隆、情感化语音合成、高精度唇形及手势驱动</p>
+      </div>
+      <div class="tech-item">
+        <h5>AI 直播积累</h5>
+        <p>两年 7&times;24 小时不间断 AI 直播，实时渲染引擎经过实战检验</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Footer ═══════ -->
+<!-- ═══════ Services Manual CTA ═══════ -->
+<section class="section" style="padding-top: 2rem; padding-bottom: 1rem;">
+  <div class="container">
+    <div class="distinction-grid reveal" style="border-radius: var(--radius-lg);">
+      <div class="distinction-card" style="display:flex;flex-direction:column;justify-content:center;align-items:flex-start;">
+        <p class="section-label" style="margin-bottom:0.5rem;">Service Manual</p>
+        <h3 class="manual-cta-title" style="font-size:1.6rem;margin-bottom:0.75rem;">完整服务手册</h3>
+        <p class="manual-cta-desc" style="color:var(--text-secondary);font-size:0.9rem;line-height:1.65;margin-bottom:1.5rem;">
+          涵盖公司简介、AI视频与AI数字人技术区分、七项服务详解、
+          服务总览表、核心优势、客户场景对照、合作流程及技术能力。
+        </p>
+        <a href="services.html" class="hero-cta manual-cta-btn" style="font-size:0.78rem;padding:0.6rem 1.5rem;">
+          查看完整手册
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+      </div>
+      <div class="distinction-card manual-cta-emoji" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(37,99,235,0.08),rgba(124,58,237,0.06));font-size:5rem;opacity:0.4;">
+        &#128214;
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Footer ═══════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-logo"><img src="logo.png" alt="元分身"></div>
+    <p class="footer-sub">拓元旗下 &middot; AI 视频与电商图片 &middot; 2026</p>
+    <div class="footer-links">
+      <a href="index.html">首页</a>
+      <a href="cases.html">案例展示</a>
+      <a href="services.html">服务手册</a>
+    </div>
+  </div>
+</footer>
+
+</main>
+
+<script>
+/* ═══════ Scroll Animations ═══════ */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ═══════ Navigation Scroll Effect ═══════ */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.pageYOffset > 50);
+}, { passive: true });
+
+/* ═══════ Parallax Background Elements ═══════ */
+window.addEventListener('scroll', () => {
+  const scrolled = window.pageYOffset;
+  document.querySelectorAll('.hero-bg-element').forEach((el, i) => {
+    el.style.transform = `translateY(${scrolled * (0.02 + i * 0.01)}px)`;
+  });
+}, { passive: true });
+</script>
+</body>
+</html>
