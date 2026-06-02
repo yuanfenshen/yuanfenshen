@@ -940,12 +940,16 @@ function openVideoModal(sectionId, index) {
   video.controls = true;
   video.loop = true;
   video.muted = true;
+  video.playsInline = true;
+  video.webkitPlaysInline = true;
+  video.setAttribute('playsinline', '');
+  video.setAttribute('webkit-playsinline', '');
   video.preload = 'auto';
   video.src = item.src;
 
   // Non-blocking loading hint
   var hint = document.createElement('div');
-  hint.style.cssText = 'position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#9CA3AF;font-size:0.75rem;pointer-events:none;';
+  hint.style.cssText = 'position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#9CA3AF;font-size:0.75rem;pointer-events:none;z-index:15;';
   hint.textContent = '加载中…';
   container.appendChild(hint);
 
@@ -953,23 +957,50 @@ function openVideoModal(sectionId, index) {
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // Try play, retry on failure (up to 3 retries)
-  var retries = 0;
+  // Wait for canplay before attempting to play (avoid race condition)
+  var canPlayFired = false;
+  var playAttempted = false;
+
   function attemptPlay() {
+    if (playAttempted) return;
+    playAttempted = true;
     var p = video.play();
     if (p && p.catch) {
       p.catch(function() {
-        retries++;
-        if (retries < 4) setTimeout(attemptPlay, 600);
-        else hint.textContent = '点击 ▶ 播放';
+        hint.textContent = '点击 ▶ 播放';
       });
     }
   }
-  video.addEventListener('canplay', function() {
+
+  video.addEventListener('canplay', function onCanPlay() {
+    if (canPlayFired) return;
+    canPlayFired = true;
     hint.style.display = 'none';
-    if (video.paused) attemptPlay();
+    video.removeEventListener('canplay', onCanPlay);
+    attemptPlay();
   });
-  attemptPlay();
+
+  // If video is already ready (cached), trigger play directly
+  if (video.readyState >= 3) {
+    canPlayFired = true;
+    hint.style.display = 'none';
+    attemptPlay();
+  }
+
+  video.addEventListener('playing', function() {
+    hint.style.display = 'none';
+  });
+
+  video.addEventListener('error', function() {
+    hint.textContent = '视频加载失败，请刷新重试';
+  });
+
+  // Fallback: if canplay doesn't fire within 5s, show hint to click play
+  setTimeout(function() {
+    if (!canPlayFired) {
+      hint.textContent = '点击 ▶ 播放';
+    }
+  }, 5000);
 }
 
 function closeVideoModal(event) {
