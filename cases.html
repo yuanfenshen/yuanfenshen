@@ -488,6 +488,7 @@ video {
   background: rgba(0,0,0,0.7);
   z-index: 10;
   transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .video-loading-overlay.hidden {
@@ -960,11 +961,11 @@ function openVideoModal(sectionId, index) {
   video.loop = true;
   video.muted = true;
   video.oncontextmenu = function(e) { e.preventDefault(); return false; };
-  video.preload = 'auto';
+  video.preload = 'metadata';
   video.src = item.src;
 
-  // Hide loading when enough data to play
-  video.addEventListener('canplay', function() {
+  // Hide loading when video actually starts playing
+  video.addEventListener('playing', function() {
     var overlay = document.getElementById('videoLoadingOverlay');
     if (overlay) overlay.classList.add('hidden');
   });
@@ -980,6 +981,13 @@ function openVideoModal(sectionId, index) {
       overlay.innerHTML = '<p style="color:#ef4444;">视频加载失败，请检查网络后重试</p>';
     }
   });
+  // If still loading after 10s, show a tap-to-play hint
+  setTimeout(function() {
+    var overlay = document.getElementById('videoLoadingOverlay');
+    if (overlay && !overlay.classList.contains('hidden')) {
+      overlay.innerHTML = '<div class="spinner"></div><p>加载较慢，请点击视频播放</p>';
+    }
+  }, 10000);
 
   container.appendChild(video);
 
