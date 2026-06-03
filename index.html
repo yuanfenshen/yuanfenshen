@@ -200,9 +200,9 @@ main { position: relative; z-index: 1; }
 
 .nav-links a:hover { color: var(--text-primary); }
 
-.nav-cta {
-  font-size: 0.76rem !important;
-  font-weight: 600 !important;
+.nav-links a.active {
+  font-size: 0.76rem;
+  font-weight: 600;
   padding: 0.5rem 1.2rem;
   border-radius: 100px;
   background: var(--gradient-primary);
@@ -211,7 +211,7 @@ main { position: relative; z-index: 1; }
   transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.nav-cta:hover {
+.nav-links a.active:hover {
   opacity: 0.92;
   transform: translateY(-1px);
   box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35);
@@ -639,8 +639,8 @@ main { position: relative; z-index: 1; }
 }
 
 .overview-table th {
-  text-align: left;
-  padding: 1rem 1.5rem;
+  text-align: center;
+  padding: 0.5rem 1.5rem;
   font-weight: 600;
   font-size: 0.7rem;
   letter-spacing: 0.1em;
@@ -651,10 +651,12 @@ main { position: relative; z-index: 1; }
 }
 
 .overview-table td {
-  padding: 1rem 1.5rem;
+  padding: 0.5rem 1.5rem;
   border-bottom: 1px solid var(--glass-border);
   font-weight: 400;
   color: var(--text-secondary);
+  vertical-align: middle;
+  text-align: center;
 }
 
 .overview-table tr:last-child td { border-bottom: none; }
@@ -671,7 +673,7 @@ main { position: relative; z-index: 1; }
   background-clip: text;
 }
 
-.overview-table .name { color: var(--text-primary); font-weight: 600; }
+.overview-table .name { color: var(--text-primary); font-weight: 600; text-align: center; }
 
 .table-link {
   color: var(--text-primary);
@@ -680,11 +682,18 @@ main { position: relative; z-index: 1; }
   transition: color 0.3s ease, background 0.3s ease;
   padding: 0.15rem 0;
   border-bottom: 1px solid transparent;
+  display: inline-block;
+  text-align: center;
 }
 
 .table-link:hover {
   color: var(--accent-blue);
   border-bottom-color: rgba(37, 99, 235, 0.5);
+}
+
+.table-line {
+  display: block;
+  text-align: center;
 }
 
 .table-link::after {
@@ -822,7 +831,6 @@ main { position: relative; z-index: 1; }
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  opacity: 0.35;
   line-height: 1;
   margin-bottom: 1rem;
 }
@@ -964,9 +972,9 @@ main { position: relative; z-index: 1; }
   .nav.scrolled { padding: 0.5rem 0; }
   .nav-inner { padding: 0 1rem; }
   .nav-logo img { height: 24px; }
-  .nav-links { gap: 0.8rem; }
-  .nav-links a { font-size: 0.7rem; }
-  .nav-cta { display: none; }
+  .nav-links { gap: 0.5rem; }
+  .nav-links a { font-size: 0.62rem; }
+  .nav-links a.active { display: none; }
 
   /* Hero */
   .hero {
@@ -1012,8 +1020,8 @@ main { position: relative; z-index: 1; }
   /* Overview table */
   .overview-table-wrap { border-radius: var(--radius-md); }
   .overview-table { font-size: 0.78rem; }
-  .overview-table th { padding: 0.7rem 0.75rem; font-size: 0.6rem; }
-  .overview-table td { padding: 0.7rem 0.75rem; }
+  .overview-table th { padding: 0.4rem 0.75rem; font-size: 0.6rem; }
+  .overview-table td { padding: 0.4rem 0.75rem; text-align: center; }
   .overview-table .num { font-size: 1rem; }
 
   /* Advantages */
@@ -1084,10 +1092,11 @@ main { position: relative; z-index: 1; }
       <img src="logo.png" alt="元分身">
     </a>
     <ul class="nav-links">
+      <li><a href="#hero">主页</a></li>
       <li><a href="#services">服务</a></li>
       <li><a href="cases.html">案例</a></li>
       <li><a href="services.html">手册</a></li>
-      <li><a href="#process" class="nav-cta">合作流程</a></li>
+      <li><a href="#process" class="active">合作流程</a></li>
     </ul>
   </div>
 </nav>
@@ -1095,7 +1104,7 @@ main { position: relative; z-index: 1; }
 <main>
 
 <!-- ═══════ Hero — Two Column ═══════ -->
-<section class="hero section">
+<section class="hero section" id="hero">
   <div class="hero-bg-element"></div>
   <div class="hero-bg-element"></div>
   <div class="container">
@@ -1168,21 +1177,17 @@ main { position: relative; z-index: 1; }
 
     <div class="services-grid reveal">
 
-      <!-- 01 电商图片 — Featured (white highlight) -->
-      <div class="service-card-featured">
-        <div class="service-card">
-          <div class="service-number">01</div>
-          <div class="service-card-content" style="flex:1;">
-            <span class="service-type image">AI 图片</span>
-            <h3>电商图片</h3>
-            <p class="service-desc">提供电商店铺所需的全部视觉素材：主图、轮播图、详情页长图。根据产品照片和资料，交付完整的抠图合成场景图、多尺寸规格图、多语种版本。支持快速换色——同一产品只用一种颜色实拍图，即可交付其他配色版本。国内和跨境平台规格不同，均可适配交付。</p>
-            <ul class="service-features">
-              <li>国内 + 跨境</li><li>快速换色</li><li>多尺寸适配</li><li>多语种版本</li>
-            </ul>
-            <p class="service-client">适合：<strong>电商卖家、品牌方、跨境商家</strong> &mdash; 全店视觉一站式解决</p>
-            <a href="cases.html#ecommerce" class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
-          </div>
-        </div>
+      <!-- 01 电商图片 -->
+      <div class="service-card">
+        <div class="service-card-icon">&#9632;</div>
+        <span class="service-type image">AI 图片</span>
+        <h3>电商图片</h3>
+        <p class="service-desc">提供电商店铺所需的全部视觉素材：主图、轮播图、详情页长图。根据产品照片和资料，交付完整的抠图合成场景图、多尺寸规格图、多语种版本。支持快速换色——同一产品只用一种颜色实拍图，即可交付其他配色版本。国内和跨境平台规格不同，均可适配交付。</p>
+        <ul class="service-features">
+          <li>国内 + 跨境</li><li>快速换色</li><li>多尺寸适配</li><li>多语种版本</li>
+        </ul>
+        <p class="service-client">适合：<strong>电商卖家、品牌方、跨境商家</strong> &mdash; 全店视觉一站式解决</p>
+        <a href="cases.html#ecommerce" class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
       </div>
 
       <!-- 02 产品信息流 -->
@@ -1284,12 +1289,12 @@ main { position: relative; z-index: 1; }
           </tr>
         </thead>
         <tbody>
-          <tr><td><span class="num">01</span></td><td class="name"><a href="cases.html#ecommerce" class="table-link">电商图片（国内 / 跨境）</a></td><td><span class="type-badge image">图片</span></td><td>电商卖家、整店视觉方案</td></tr>
-          <tr><td><span class="num">02</span></td><td class="name"><a href="cases.html#info-feed" class="table-link">产品信息流</a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>信息流投放、抖音/快手/小红书</td></tr>
-          <tr><td><span class="num">03</span></td><td class="name"><a href="cases.html#info-feed" class="table-link">口播 + 产品混剪</a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>产品解说、种草测评</td></tr>
-          <tr><td><span class="num">04</span></td><td class="name"><a href="cases.html#tvc" class="table-link">TVC 产品广告</a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>品牌电商广告投放、新品发布</td></tr>
-          <tr><td><span class="num">05</span></td><td class="name"><a href="cases.html#digital-human" class="table-link">AI 数字人（单人/双人/多语种）</a></td><td><span class="type-badge ai-human">AI 数字人</span></td><td>品牌IP、培训内宣、跨境电商</td></tr>
-          <tr><td><span class="num">06</span></td><td class="name"><a href="cases.html#corporate" class="table-link">AI 企业宣传片</a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>品牌形象宣传片、企业年度宣传</td></tr>
+          <tr><td><span class="num">01</span></td><td class="name"><a href="cases.html#ecommerce" class="table-link"><span class="table-line">电商图片</span><span class="table-line">（国内 / 跨境）</span></a></td><td><span class="type-badge image">图片</span></td><td>电商卖家、整店视觉方案</td></tr>
+          <tr><td><span class="num">02</span></td><td class="name"><a href="cases.html#info-feed" class="table-link"><span class="table-line">产品信息流</span></a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>信息流投放、抖音/快手/小红书</td></tr>
+          <tr><td><span class="num">03</span></td><td class="name"><a href="cases.html#info-feed" class="table-link"><span class="table-line">口播 + 产品混剪</span></a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>产品解说、种草测评</td></tr>
+          <tr><td><span class="num">04</span></td><td class="name"><a href="cases.html#tvc" class="table-link"><span class="table-line">TVC 产品广告</span></a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>品牌电商广告投放、新品发布</td></tr>
+          <tr><td><span class="num">05</span></td><td class="name"><a href="cases.html#digital-human" class="table-link"><span class="table-line">AI 数字人</span><span class="table-line">（单人/双人/多语种）</span></a></td><td><span class="type-badge ai-human">AI 数字人</span></td><td>品牌IP、培训内宣、跨境电商</td></tr>
+          <tr><td><span class="num">06</span></td><td class="name"><a href="cases.html#corporate" class="table-link"><span class="table-line">AI 企业宣传片</span></a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>品牌形象宣传片、企业年度宣传</td></tr>
         </tbody>
       </table>
     </div>
@@ -1479,6 +1484,35 @@ window.addEventListener('scroll', () => {
     el.style.transform = `translateY(${scrolled * (0.02 + i * 0.01)}px)`;
   });
 }, { passive: true });
+
+/* ═════ Navigation Active Toggle ═════ */
+(function() {
+  var navLinks = document.querySelectorAll('.nav-links a');
+  var ignoreObserver = false;
+  function setActive(href) {
+    navLinks.forEach(function(l) { l.classList.remove('active'); if(l.getAttribute('href')===href) l.classList.add('active'); });
+  }
+  var ids = ['services','process'];
+  var sections = ids.map(function(id){return document.getElementById(id);}).filter(Boolean);
+  sections.forEach(function(sec){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!ignoreObserver && e.isIntersecting) setActive('#'+e.target.id);
+      });
+    }, {threshold:0.3, rootMargin:'-80px 0px 0px 0px'});
+    obs.observe(sec);
+  });
+  if(window.location.hash) {
+    setActive(window.location.hash);
+  } else {
+    setActive('#process');
+  }
+  window.addEventListener('hashchange', function(){
+    ignoreObserver = true;
+    setActive(window.location.hash);
+    setTimeout(function(){ ignoreObserver = false; }, 600);
+  });
+})();
 </script>
 </body>
 </html>
