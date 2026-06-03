@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>服务手册 - 元分身 - 企业 AI 内容创作专家</title>
+<title>服务手册 - 元分身 AI视频与电商图片</title>
 <style>
 /* ═══════════════════════════════════════
    DEEP SPACE — Service Manual Page
@@ -65,11 +65,16 @@ main { position: relative; z-index: 1; }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  padding: 1.5rem 0;
-  background: rgba(15, 17, 24, 0.80);
+  padding: 1.3rem 0;
+  transition: background 0.4s ease, padding 0.4s ease;
+}
+
+.nav.scrolled {
+  background: rgba(15, 17, 24, 0.85);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border-bottom: 1px solid var(--glass-border);
+  padding: 0.65rem 0;
 }
 
 .nav-inner {
@@ -95,7 +100,7 @@ main { position: relative; z-index: 1; }
 
 .nav-links {
   display: flex;
-  gap: 2rem;
+  gap: 0.6rem;
   list-style: none;
   align-items: center;
 }
@@ -110,6 +115,23 @@ main { position: relative; z-index: 1; }
 }
 
 .nav-links a:hover, .nav-links a.active { color: var(--text-primary); }
+
+.nav-links a.active {
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 0.5rem 1.2rem;
+  border-radius: 100px;
+  background: var(--gradient-primary);
+  color: #fff !important;
+  border: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 0 0.4rem;
+}
+.nav-links a.active:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35);
+}
 
 /* ═══════ Container ═══════ */
 .container {
@@ -493,7 +515,7 @@ main { position: relative; z-index: 1; }
   .advantages-grid { grid-template-columns: 1fr; }
   .scenarios-list { grid-template-columns: 1fr; }
   .process-steps { grid-template-columns: repeat(2, 1fr); }
-  .nav-links { gap: 1.2rem; }
+  .nav-links { gap: 0.4rem; }
   .nav-links a { font-size: 0.72rem; }
   .page-header { padding: 7rem 0 2rem; }
 }
@@ -509,8 +531,9 @@ main { position: relative; z-index: 1; }
   /* Navigation */
   .nav { padding: 0.8rem 0; }
   .nav-logo img { height: 24px; }
-  .nav-links { gap: 0.8rem; }
-  .nav-links a { font-size: 0.7rem; }
+  .nav-links { gap: 0.2rem; }
+  .nav-links a { font-size: 0.6rem; }
+  .nav-links a.active { font-size: 0.58rem; padding: 0.35rem 0.7rem; margin: 0; }
 
   /* Page header */
   .page-header { padding: 6rem 0 1.5rem; margin-bottom: 2rem; }
@@ -574,13 +597,15 @@ main { position: relative; z-index: 1; }
 </head>
 <body>
 
-<nav class="nav">
+<nav class="nav" id="nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo"><img src="logo.png" alt="元分身"></a>
     <ul class="nav-links">
-      <li><a href="index.html">首页</a></li>
+      <li><a href="index.html">主页</a></li>
+      <li><a href="index.html#services">服务</a></li>
       <li><a href="cases.html">案例展示</a></li>
       <li><a href="services.html" class="active">服务手册</a></li>
+      <li><a href="index.html#process">合作流程</a></li>
     </ul>
   </div>
 </nav>
@@ -595,7 +620,7 @@ main { position: relative; z-index: 1; }
   <!-- ═══════ 公司简介 ═══════ -->
   <section class="content-section">
     <h2>公司简介</h2>
-    <p>元分身是拓元集团旗下专注于 AI 直播与 AI 视频领域的技术公司，核心技术底座完全自主研发，绝非第三方技术的简单封装与整合。</p>
+    <p>元分身是拓元集团旗下专注于 AI 直播与 AI 视频领域的技术公司，<strong>核心技术底座完全自主研发</strong>，绝非第三方技术的简单封装与整合。</p>
     <p>过去两年，团队核心业务聚焦于 AI 直播，在数字人实时驱动、高精度实时渲染、多语种自然语音合成、低延迟全球推流等关键环节建立了完整的技术体系。这些能力均经过海量真实商业场景的严苛考验，而非实验室环境下的演示产品。</p>
     <p>基于共通的底层技术架构，我们将 AI 直播领域沉淀的成熟技术能力深度赋能 AI 视频制作赛道，凭借经过实战检验的全链路技术优势，为行业提供更高效、更稳定、更具表现力的 AI 内容生产解决方案。</p>
   </section>
@@ -620,7 +645,7 @@ main { position: relative; z-index: 1; }
 
     <h3 class="service-title">1. 电商图片</h3>
     <span class="service-tag tag-image">图片</span>
-    <p>覆盖电商店铺所需的全部视觉素材：主图、轮播图、详情页长图。AI根据产品照片和资料，自动完成抠图、场景合成、多尺寸适配、多语种版本输出。支持<strong>快速换色</strong>，同一产品只需提供一种颜色的实拍图，AI即可生成其他配色版本，省去逐一拍摄的重复工作。国内和跨境平台规格不同，AI自动适配。</p>
+    <p>提供电商店铺所需的全部视觉素材：主图、轮播图、详情页长图。根据产品照片和资料，交付完整的抠图合成场景图、多尺寸规格图、多语种版本图。支持<strong>快速换色</strong>，同一产品只需提供一种颜色的实拍图，即可交付其他配色版本，省去逐一拍摄的重复工作。国内和跨境平台规格不同，均可适配交付。</p>
     <p style="color:var(--text-muted); font-size:0.85rem;">适用：所有电商卖家，国内和跨境均覆盖。从单品上架到整店视觉方案均可支持。</p>
   </section>
 
@@ -630,34 +655,35 @@ main { position: relative; z-index: 1; }
 
     <h3 class="service-title">2. 产品信息流</h3>
     <span class="service-tag tag-video">AI 视频</span>
-    <p>提供两种交付形式：一是从文案到画面的完整视频成片，无需客户提供素材；二是由AI制作的<strong>黄金开头15秒</strong>片段，配合客户实拍素材完成混剪，兼顾起量爆款效果与品牌真实性。</p>
+    <p>提供两种交付形式：一是从文案到画面的完整视频成片，无需客户提供素材；二是由AI制作的<strong>黄金开头15秒片段</strong>，配合客户实拍素材完成混剪成片，兼顾起量爆款效果与品牌真实性。</p>
     <p>黄金开头15秒由AI完全生成，以高转化率的视觉语言快速抓住受众注意力，是当前信息流投放中被反复验证有效的起量利器。</p>
     <p style="color:var(--text-muted); font-size:0.85rem;">适用：电商信息流投放、抖音/快手/小红书短视频。</p>
 
     <h3 class="service-title">3. 口播 + 产品混剪</h3>
     <span class="service-tag tag-video">AI 视频</span>
-    <p>真人或数字人出镜讲解产品，AI自动匹配空镜素材、字幕、背景音乐。不需要逐帧手工剪辑。</p>
+    <p>真人或数字人出镜主讲，将讲解口播与产品画面有机融合，交付完整的混剪成片。具体做法是：以人物讲解为主线贯穿全片，在关键卖点处穿插产品特写、使用场景等空镜画面，再配合字幕、转场和背景音乐，让产品展示与内容节奏紧密咬合，既有人情味，又有说服力。</p>
     <p style="color:var(--text-muted); font-size:0.85rem;">适用：产品解说、种草测评、知识科普。</p>
 
     <h3 class="service-title">4. TVC 产品广告</h3>
     <span class="service-tag tag-video">AI 视频</span>
-    <p>面向品牌电商的产品级电视广告。AI完成脚本创意、场景搭建、产品渲染、音画合成，输出具有TVC质感的完整产品广告片。制作周期和成本远低于传统影视团队，画面品质对标广告级标准。</p>
+    <p>面向品牌电商的产品级广告片。交付具有TVC质感的完整产品广告成片，包含脚本创意、场景画面、产品渲染、音画合成。制作周期和成本远低于传统影视团队，画面品质对标广告级标准。</p>
     <p style="color:var(--text-muted); font-size:0.85rem;">适用：品牌电商产品广告投放、新品发布推广。</p>
 
-    <h3 class="service-title">5. AI 数字人（单人/双人/多语种）</h3>
+    <h3 class="service-title">5. AI数字人</h3>
     <span class="service-tag tag-human">AI 数字人</span>
-    <p>对真人进行<strong>1:1高精度克隆建模</strong>，交付高度还原真人形象的数字人视频，看不出AI痕迹。一次建模，无限复用，无需每次重新安排真人拍摄。支持三种模式：</p>
-    <p><strong>单人模式</strong> — 交付知识分享、新闻播报、产品介绍、专业讲解、培训视频、企业内宣等各类单人讲解视频。</p>
-    <p><strong>双人模式</strong> — 交付对话式、访谈式、双人播报、问答式产品讲解、双主播带货等场景成片，两个数字人形象同步协调，口型、表情、肢体互动自然流畅。</p>
-    <p><strong>多语种播报</strong> — 同一数字人形象，交付多国语言版本的视频。各语种版本均实现口型与语音严格同步，非机械配音效果，一次制作即可覆盖多个语言市场。</p>
-    <p style="color:var(--text-muted); font-size:0.85rem;">适用：需要建立品牌IP、持续大量产出视频内容，或有培训内宣、跨境多语种内容需求的客户。数字人制作涉及真人肖像权，合作前需提前确认形象授权和版权事宜。</p>
+    <p>对真人进行<strong>1:1高精度克隆建模</strong>，以文本驱动口型、表情和动作，交付高度还原真人形象的数字人视频。与AI视频中AI凭空生成的"假人"不同，数字人面部来自真实采集，看不出AI痕迹。一次建模完成后，数字人可无限复用、持续交付内容，无需每次重新安排真人拍摄。</p>
+    <p>支持<strong>单人讲解</strong>、<strong>双人互动</strong>和<strong>多语种播报</strong>三种模式：</p>
+    <p><strong>单人模式</strong>：交付知识分享、新闻播报、产品介绍、专业讲解、培训视频、企业内宣等各类单人讲解视频。</p>
+    <p><strong>双人模式</strong>：交付对话式、访谈式、双人播报、问答式产品讲解、双主播带货等场景的成片，两个数字人形象同步协调，口型、表情、肢体互动自然流畅。</p>
+    <p><strong>多语种播报</strong>：同一数字人形象，交付多国语言版本的视频。各语种版本均实现口型与语音严格同步，非机械配音效果，一次制作即可覆盖多个语言市场。</p>
+    <p>核心价值：<strong>一次建模，持续产出</strong>，不依赖真人每次出镜。</p>
+    <p style="color:var(--text-muted); font-size:0.85rem;">备注：数字人相关需提前确认版权及肖像权事宜；多语种覆盖范围以当前热核能力为准。</p>
+    <p style="color:var(--text-muted); font-size:0.85rem;">适用：需要建立品牌IP、持续大量产出视频内容，或有培训内宣、跨境多语种内容需求的客户。</p>
 
     <h3 class="service-title">6. AI 企业宣传片</h3>
     <span class="service-tag tag-video">AI 视频</span>
-    <p>与前述服务不同，AI宣传片属于<strong>创作型产品</strong>，而非工具型。</p>
-    <p>传统影视制作成本高、周期长、修改难，而普通AI工具只能生成碎片化视频，无法满足品牌级传播需求。</p>
-    <p>元分身提供的是AI宣传片创作服务：AI从创意源头介入，完成分镜设计、场景搭建、角色渲染、音画匹配等繁重工作，再由专业影视人把控艺术品质和品牌调性，最终交付既能打动观众、又符合品牌标准的完整广告片。片中人物由AI生成，观众可感知为AI制作风格，不追求以假乱真。</p>
-    <p>这是目前行业内极少数能稳定实现<strong>"AI效率+专业品质"</strong>平衡的解决方案，让中小企业也能拥有过去只有大品牌才能负担得起的高质量宣传片。</p>
+    <p>品牌级AI宣传片创作服务。交付既能打动观众、又符合品牌标准的完整广告片成品，包含分镜创意、场景画面、角色渲染、音画合成等完整制作环节，并由专业影视团队把控艺术品质和品牌调性。</p>
+    <p>让中小企业也能以更高效、更低成本的方式，获得过去只有大品牌才能负担得起的高质量宣传片。</p>
     <p style="color:var(--text-muted); font-size:0.85rem;">适用：品牌形象宣传片、企业年度宣传片、品牌传播视频。</p>
   </section>
 
@@ -723,7 +749,7 @@ main { position: relative; z-index: 1; }
       </div>
       <div class="advantage-card">
         <h4>AI企业宣传片独家</h4>
-        <p>品牌级AI叙事制作能力在目前市场中具有稀缺性。客户需要一条有质感、有叙事线的宣传片，但传统制作周期长成本高，我们能提供效率更高的替代方案。</p>
+        <p>品牌级AI叙事制作能力在目前市场中具有稀缺性。传统制作周期长成本高，我们能以更高效率交付同等甚至更高质感的宣传片。</p>
       </div>
       <div class="advantage-card">
         <h4>全链路覆盖</h4>
@@ -741,9 +767,9 @@ main { position: relative; z-index: 1; }
       <li><span class="scenario-dot"></span><span><strong>TVC产品广告</strong> &mdash; 服务4，品牌级产品广告片</span></li>
       <li><span class="scenario-dot"></span><span><strong>跨境电商</strong> &mdash; 服务5多语种模式，一个数字人覆盖多语种市场；服务1，多平台多语种图片适配</span></li>
       <li><span class="scenario-dot"></span><span><strong>品牌宣传片</strong> &mdash; 服务6，AI企业宣传片</span></li>
-      <li><span class="scenario-dot"></span><span><strong>品牌代言/高规格活动</strong> &mdash; 服务5，高保真数字人</span></li>
+      <li><span class="scenario-dot"></span><span><strong>品牌代言/高规格活动</strong> &mdash; 服务5，AI数字人</span></li>
       <li><span class="scenario-dot"></span><span><strong>MCN / 账号矩阵</strong> &mdash; 服务3、5，持续产出内容，不依赖真人每次出镜</span></li>
-      <li><span class="scenario-dot"></span><span><strong>企业培训/内宣</strong> &mdash; 服务5，高保真数字人替代真人重复拍摄</span></li>
+      <li><span class="scenario-dot"></span><span><strong>企业培训/内宣</strong> &mdash; 服务5，数字人单人/双人模式均可替代真人重复拍摄</span></li>
     </ul>
   </section>
 
@@ -764,7 +790,7 @@ main { position: relative; z-index: 1; }
       <div class="process-step">
         <div class="step-num">03</div>
         <h4>制作交付</h4>
-        <p>AI完成初稿，人工精修，中间可随时审片调整</p>
+        <p>按计划完成制作，中间可随时审片调整</p>
       </div>
       <div class="process-step">
         <div class="step-num">04</div>
@@ -802,11 +828,6 @@ main { position: relative; z-index: 1; }
     </ul>
   </section>
 
-  <!-- ═══════ 内部备注 ═══════ -->
-  <div class="internal-note">
-    <p><strong>备注：</strong>实际报价按项目单独出具方案后确认。数字人相关需提前确认版权及肖像权事宜。多语种覆盖范围以当前技术能力为准。正式使用前请市场负责人审定。</p>
-  </div>
-
 </div>
 
 <footer class="footer">
@@ -819,5 +840,14 @@ main { position: relative; z-index: 1; }
   </div>
 </footer>
 </main>
+
+<script>
+/* ═══════ Nav Scroll ═══════ */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.pageYOffset > 50);
+}, { passive: true });
+</script>
+
 </body>
 </html>
