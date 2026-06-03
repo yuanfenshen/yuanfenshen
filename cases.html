@@ -835,6 +835,7 @@ function renderVideos(sectionId, items) {
       <div class="video-wrapper" onclick="openVideoModal('${sectionId}', ${i})">
         <video
           src="${item.src}"
+          poster="${item.poster || item.src.replace('.mp4', '-thumb.jpg')}"
           playsinline
           webkit-playsinline
           muted
