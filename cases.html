@@ -939,10 +939,7 @@ function openVideoModal(sectionId, index) {
   // Auto-play (user clicked thumbnail = allowed gesture)
   var playPromise = video.play();
   if (playPromise !== undefined) {
-    playPromise.catch(function(e) {
-      // Some browsers still block — ignore, user can tap native controls
-      console.log('Auto-play blocked:', e.name);
-    });
+    playPromise.catch(function(e) { /* auto-play may be blocked */ });
   }
 }
 
