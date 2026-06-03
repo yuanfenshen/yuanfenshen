@@ -355,6 +355,17 @@ video {
   pointer-events: none;
 }
 
+.video-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* ─── Play overlay (click to pop up modal) ─── */
 .video-play-overlay {
   position: absolute;
@@ -637,9 +648,8 @@ video {
     <a href="index.html" class="nav-logo"><img src="logo.png" alt="元分身"></a>
     <ul class="nav-links">
       <li><a href="index.html">主页</a></li>
-      <li><a href="index.html#services">服务</a></li>
       <li><a href="cases.html" class="active">案例展示</a></li>
-      <li><a href="services.html">服务手册</a></li>
+      <li><a href="services.html">手册</a></li>
       <li><a href="index.html#process">合作流程</a></li>
     </ul>
   </div>
@@ -823,6 +833,7 @@ function renderVideos(sectionId, items) {
   grid.innerHTML = items.map((item, i) => `
     <div class="video-case-item">
       <div class="video-wrapper" onclick="openVideoModal('${sectionId}', ${i})">
+        ${item.poster ? `<img class="video-poster" src="${item.poster}" alt="" loading="lazy">` : ''}
         <video
           src="${item.src}"
           poster="${item.poster || ''}"
