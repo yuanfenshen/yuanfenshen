@@ -838,7 +838,7 @@ function renderVideos(sectionId, items) {
           playsinline
           webkit-playsinline
           muted
-          preload="none"
+          preload="metadata"
         ></video>
         <div class="video-play-overlay">
           <div class="video-play-icon">
@@ -851,12 +851,20 @@ function renderVideos(sectionId, items) {
   `).join('');
 }
 
-/* Initialize all sections */
-renderImages('ecommerce', caseData.ecommerce.items);
-renderVideos('info-feed', caseData['info-feed'].items);
-renderVideos('tvc', caseData.tvc.items);
-renderVideos('digital-human', caseData['digital-human'].items);
-renderVideos('corporate', caseData.corporate.items);
+/* Initialize all sections — DOMContentLoaded safety */
+function initAllCases() {
+  renderImages('ecommerce', caseData.ecommerce.items);
+  renderVideos('info-feed', caseData['info-feed'].items);
+  renderVideos('tvc', caseData.tvc.items);
+  renderVideos('digital-human', caseData['digital-human'].items);
+  renderVideos('corporate', caseData.corporate.items);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAllCases);
+} else {
+  initAllCases();
+}
 
 /* ═══════ Tab Switching ═══════ */
 const tabs = document.querySelectorAll('.tab-btn');
