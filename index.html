@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>元分身 - AI视频与电商图片</title>
+<title>元分身 - 企业 AI 内容创作专家</title>
 <style>
 /* ═══════════════════════════════════════
    DEEP SPACE — Glassmorphism Design System
@@ -165,7 +165,7 @@ main { position: relative; z-index: 1; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 960px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 0 clamp(1.5rem, 5vw, 4rem);
 }
@@ -184,7 +184,7 @@ main { position: relative; z-index: 1; }
 
 .nav-links {
   display: flex;
-  gap: 0.6rem;
+  gap: 2rem;
   list-style: none;
   align-items: center;
 }
@@ -200,19 +200,18 @@ main { position: relative; z-index: 1; }
 
 .nav-links a:hover { color: var(--text-primary); }
 
-.nav-links a.active {
-  font-size: 0.76rem;
-  font-weight: 600;
+.nav-cta {
+  font-size: 0.76rem !important;
+  font-weight: 600 !important;
   padding: 0.5rem 1.2rem;
   border-radius: 100px;
   background: var(--gradient-primary);
   color: #fff !important;
   border: none;
   transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  margin: 0 0.4rem;
 }
 
-.nav-links a.active:hover {
+.nav-cta:hover {
   opacity: 0.92;
   transform: translateY(-1px);
   box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35);
@@ -372,20 +371,11 @@ main { position: relative; z-index: 1; }
   line-height: 1.7;
 }
 
-/* ═══════ Service Cards — 3-col grid, first card white highlight ═══════ */
+/* ═══════ Service Cards — 3-col grid with icon ═══════ */
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
-}
-
-.service-card-featured {
-  grid-column: 1 / -1;
-}
-
-a.service-card {
-  text-decoration: none;
-  color: inherit;
 }
 
 .service-card {
@@ -408,71 +398,22 @@ a.service-card {
   box-shadow: 0 20px 60px rgba(37, 99, 235, 0.08);
 }
 
-/* First card — dark elevated highlight */
-.service-card-featured .service-card {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(37, 99, 235, 0.2);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  flex-direction: row;
-  align-items: center;
-  gap: 3rem;
-  padding: clamp(2rem, 4vw, 3rem);
-  box-shadow: 0 12px 60px rgba(37, 99, 235, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-}
-
-.service-card-featured .service-card:hover {
-  border-color: var(--glass-hover-border);
-  box-shadow: 0 24px 80px rgba(37, 99, 235, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.service-card-featured .service-number {
-  font-size: 5rem;
-  margin-bottom: 0;
-  flex-shrink: 0;
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  opacity: 0.45;
-}
-
-.service-card-featured h3 { color: var(--text-primary); }
-.service-card-featured .service-desc { color: var(--text-secondary); }
-.service-card-featured .service-features li {
-  background: rgba(37, 99, 235, 0.12);
-  color: #93BBFC;
-  border-color: rgba(37, 99, 235, 0.25);
-}
-.service-card-featured .service-card-link { color: #60A5FA; }
-.service-card-featured .service-client { border-top-color: rgba(255,255,255,0.08); }
-.service-card-featured .service-client strong { color: #93BBFC; }
-
 .service-card-icon {
   width: 48px; height: 48px;
-  border-radius: var(--radius-md);
+  border-radius: 12px;
   background: var(--gradient-primary);
   margin-bottom: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
-  opacity: 0.85;
-}
+  flex-shrink: 0;
+}  
 
-.service-card-featured .service-card-icon { margin-bottom: 0; }
-
-.service-number {
-  font-family: var(--font-display);
-  font-size: 2.6rem;
-  font-weight: 800;
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 1;
-  margin-bottom: 0.2rem;
-  opacity: 0.4;
+.service-card-icon svg {
+  width: 24px; height: 24px;
+  fill: none;
+  stroke: rgba(255,255,255,0.9);
+  stroke-width: 2;
 }
 
 .service-card h3 {
@@ -645,8 +586,8 @@ a.service-card {
 }
 
 .overview-table th {
-  text-align: center;
-  padding: 0.5rem 1.5rem;
+  text-align: left;
+  padding: 1rem 1.5rem;
   font-weight: 600;
   font-size: 0.7rem;
   letter-spacing: 0.1em;
@@ -657,15 +598,11 @@ a.service-card {
 }
 
 .overview-table td {
-  padding: 0.5rem 1.5rem;
+  padding: 1rem 1.5rem;
   border-bottom: 1px solid var(--glass-border);
   font-weight: 400;
   color: var(--text-secondary);
-  vertical-align: middle;
-  text-align: center;
 }
-
-.overview-table td:nth-child(4) { text-align: left; }
 
 .overview-table tr:last-child td { border-bottom: none; }
 .overview-table tr { transition: background 0.25s ease; }
@@ -681,10 +618,7 @@ a.service-card {
   background-clip: text;
 }
 
-.overview-table td:nth-child(2),
-.overview-table th:nth-child(2) { padding-left: 2.5rem; }
-
-.overview-table .name { color: var(--text-primary); font-weight: 600; text-align: left; }
+.overview-table .name { color: var(--text-primary); font-weight: 600; }
 
 .table-link {
   color: var(--text-primary);
@@ -693,8 +627,6 @@ a.service-card {
   transition: color 0.3s ease, background 0.3s ease;
   padding: 0.15rem 0;
   border-bottom: 1px solid transparent;
-  display: inline-block;
-  text-align: left;
 }
 
 .table-link:hover {
@@ -702,21 +634,15 @@ a.service-card {
   border-bottom-color: rgba(37, 99, 235, 0.5);
 }
 
-.table-line {
-  display: block;
-  text-align: left;
-}
-
-.table-arrow {
+.table-link::after {
+  content: ' →';
   opacity: 0;
   font-size: 0.75rem;
   margin-left: 0.25rem;
   transition: opacity 0.3s ease;
-  display: inline;
-  white-space: nowrap;
 }
 
-.table-link:hover .table-arrow { opacity: 1; }
+.table-link:hover::after { opacity: 1; }
 
 .type-badge {
   display: inline-block;
@@ -843,6 +769,7 @@ a.service-card {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  opacity: 0.35;
   line-height: 1;
   margin-bottom: 1rem;
 }
@@ -958,11 +885,10 @@ a.service-card {
   .hero-illustration { max-width: 300px; }
   .hero-desc { max-width: 100%; }
   .services-grid { grid-template-columns: repeat(2, 1fr); }
-  .service-card-featured .service-card { flex-direction: column; gap: 1rem; align-items: flex-start; }
   .process-steps { grid-template-columns: repeat(2, 1fr); }
   .advantages-grid { grid-template-columns: 1fr; }
   .tech-grid { grid-template-columns: repeat(2, 1fr); }
-  .nav-links { gap: 0.4rem; }
+  .nav-links { gap: 1.2rem; }
 }
 
 /* ═══════ Phone — 480px and below ═══════ */
@@ -984,9 +910,9 @@ a.service-card {
   .nav.scrolled { padding: 0.5rem 0; }
   .nav-inner { padding: 0 1rem; }
   .nav-logo img { height: 24px; }
-  .nav-links { gap: 0.2rem; }
-  .nav-links a { font-size: 0.6rem; }
-  .nav-links a.active { font-size: 0.58rem; padding: 0.35rem 0.7rem; margin: 0; }
+  .nav-links { gap: 0.8rem; }
+  .nav-links a { font-size: 0.7rem; }
+  .nav-cta { font-size: 0.65rem !important; padding: 0.35rem 0.65rem; }
 
   /* Hero */
   .hero {
@@ -1007,14 +933,9 @@ a.service-card {
   /* Service cards */
   .services-grid { grid-template-columns: 1fr; gap: 0.75rem; }
   .service-card { padding: 1.25rem; border-radius: var(--radius-md); }
-  .service-card-featured .service-card {
-    flex-direction: column; gap: 0.75rem; padding: 1.25rem;
-  }
-  .service-card-featured .service-number { font-size: 3rem; }
-  .service-card-featured h3 { font-size: 1.15rem; }
-  .service-card-icon { width: 38px; height: 38px; font-size: 1.1rem; margin-bottom: 0.75rem; border-radius: 8px; }
-  .service-number { font-size: 2rem; }
-  .service-card h3 { font-size: 1rem; white-space: nowrap; }
+  .service-card-icon { width: 38px; height: 38px; border-radius: 8px; margin-bottom: 0.75rem; }
+  .service-card-icon svg { width: 18px; height: 18px; }
+  .service-card h3 { font-size: 1.1rem; }
   .service-desc { font-size: 0.82rem; }
   .service-type { font-size: 0.6rem; padding: 0.18rem 0.55rem; margin-bottom: 0.6rem; }
   .service-features { gap: 0.25rem; }
@@ -1032,11 +953,8 @@ a.service-card {
   /* Overview table */
   .overview-table-wrap { border-radius: var(--radius-md); }
   .overview-table { font-size: 0.78rem; }
-  .overview-table th { padding: 0.4rem 0.75rem; font-size: 0.6rem; }
-  .overview-table td { padding: 0.4rem 0.75rem; text-align: center; }
-  .overview-table td:nth-child(2),
-  .overview-table th:nth-child(2) { padding-left: 1.5rem; }
-  .overview-table td:nth-child(4) { text-align: left; }
+  .overview-table th { padding: 0.7rem 0.75rem; font-size: 0.6rem; }
+  .overview-table td { padding: 0.7rem 0.75rem; }
   .overview-table .num { font-size: 1rem; }
 
   /* Advantages */
@@ -1110,7 +1028,7 @@ a.service-card {
       <li><a href="#services">服务</a></li>
       <li><a href="cases.html">案例</a></li>
       <li><a href="services.html">手册</a></li>
-      <li><a href="#process" class="active">合作流程</a></li>
+      <li><a href="#process" class="nav-cta">合作流程</a></li>
     </ul>
   </div>
 </nav>
@@ -1118,7 +1036,7 @@ a.service-card {
 <main>
 
 <!-- ═══════ Hero — Two Column ═══════ -->
-<section class="hero section" id="hero">
+<section class="hero section">
   <div class="hero-bg-element"></div>
   <div class="hero-bg-element"></div>
   <div class="container">
@@ -1130,8 +1048,8 @@ a.service-card {
           <span class="hero-title-line hero-subtitle"><span>为企业提供全链路 AI 内容服务</span></span>
         </h1>
         <p class="hero-desc">
-          拓元集团旗下，核心技术底座完全自研。两年 AI 直播实战积累，
-          深度赋能 AI 视频制作与电商图片生产——全链路技术优势，一站式交付。
+          元分身是拓元集团旗下专注于 AI 直播与 AI 视频领域的技术公司，核心技术底座完全自主研发。
+          两年 AI 直播实战积累，深度赋能视频制作赛道。从电商图片到品牌级 AI 宣传片，全链路交付。
         </p>
         <a href="cases.html" class="hero-cta">
           查看案例
@@ -1192,72 +1110,84 @@ a.service-card {
     <div class="services-grid reveal">
 
       <!-- 01 电商图片 -->
-      <a href="cases.html#ecommerce" class="service-card">
-        <div class="service-card-icon">&#9632;</div>
+      <div class="service-card">
+        <div class="service-card-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M2 17l5-5 3 3 4-4 8 8"/></svg>
+        </div>
         <span class="service-type image">AI 图片</span>
         <h3>电商图片</h3>
-        <p class="service-desc">提供电商店铺所需的全部视觉素材：主图、轮播图、详情页长图。根据产品照片和资料，交付完整的抠图合成场景图、多尺寸规格图、多语种版本。支持快速换色——同一产品只用一种颜色实拍图，即可交付其他配色版本。国内和跨境平台规格不同，均可适配交付。</p>
+        <p class="service-desc">提供电商店铺所需的全部视觉素材：主图、轮播图、详情页长图。AI自动抠图场景合成、多尺寸适配、多语种输出。支持快速换色，国内跨境平台自动适配规格。</p>
         <ul class="service-features">
-          <li>国内 + 跨境</li><li>快速换色</li><li>多尺寸适配</li><li>多语种版本</li>
+          <li>国内 + 跨境</li><li>快速换色</li><li>多尺寸适配</li>
         </ul>
-        <p class="service-client">适合：<strong>电商卖家、品牌方、跨境商家</strong> &mdash; 全店视觉一站式解决</p>
-        <span class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
-      </a>
+        <p class="service-client">适合：<strong>电商卖家、品牌方、跨境商家</strong> &mdash; 从单品上架到整店视觉方案</p>
+        <a href="cases.html#ecommerce" class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
 
       <!-- 02 产品信息流 -->
-      <a href="cases.html#info-feed" class="service-card">
-        <div class="service-card-icon">&#9670;</div>
+      <div class="service-card">
+        <div class="service-card-icon">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21"/></svg>
+        </div>
         <span class="service-type ai-video">AI 视频</span>
         <h3>产品信息流</h3>
-        <p class="service-desc">两种交付形式：一是从文案到画面的完整视频成片，无需客户提供素材；二是由AI制作的<strong>黄金开头15秒片段</strong>，配合客户实拍素材完成混剪成片。黄金开头15秒以高转化率的视觉语言快速抓住受众注意力，是信息流投放中验证有效的起量利器。</p>
-        <ul class="service-features"><li>完整成片</li><li>黄金开头15秒AI</li><li>混剪成片</li></ul>
+        <p class="service-desc">两种交付形式：纯AI全生成，从文案到画面完整成片；AI黄金开头15秒 + 实拍混剪，兼顾起量与品牌真实性。适配抖音/快手/小红书。</p>
+        <ul class="service-features"><li>纯AI全生成</li><li>黄金开头+混剪</li><li>15秒起量爆款</li></ul>
         <p class="service-client">适合：<strong>电商投流团队、DTC品牌</strong> &mdash; 批量产出信息流素材</p>
-        <span class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
-      </a>
+        <a href="cases.html#info-feed" class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
 
       <!-- 03 口播+产品混剪 -->
-      <a href="cases.html#info-feed" class="service-card">
-        <div class="service-card-icon">&#9654;</div>
+      <div class="service-card">
+        <div class="service-card-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="4"/></svg>
+        </div>
         <span class="service-type ai-video">AI 视频</span>
         <h3>口播 + 产品混剪</h3>
-        <p class="service-desc">真人或数字人出镜主讲，交付人物讲解与产品画面有机融合的完整混剪成片。以讲解为主线贯穿全片，在关键卖点处穿插产品特写、使用场景空镜，配合字幕、转场和背景音乐——既有人情味又有说服力。</p>
-        <ul class="service-features"><li>讲解+空镜穿插</li><li>字幕转场配乐</li><li>种草测评</li></ul>
-        <p class="service-client">适合：<strong>产品营销、MCN机构、知识博主</strong> &mdash; 高效产出解说视频</p>
-        <span class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
-      </a>
+        <p class="service-desc">真人或数字人出镜主讲，讲解口播与产品画面有机融合，交付完整混剪成片。关键卖点处穿插产品特写与使用场景，配字幕、转场和背景音乐。</p>
+        <ul class="service-features"><li>人物讲解主线</li><li>产品穿插展示</li><li>字幕+转场+BGM</li></ul>
+        <p class="service-client">适合：<strong>产品营销、MCN机构、知识博主</strong> &mdash; 产品解说与种草测评</p>
+        <a href="cases.html#info-feed" class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
 
       <!-- 04 TVC产品广告 -->
-      <a href="cases.html#tvc" class="service-card">
-        <div class="service-card-icon">&#9733;</div>
+      <div class="service-card">
+        <div class="service-card-icon">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"/></svg>
+        </div>
         <span class="service-type ai-video">AI 视频</span>
         <h3>TVC 产品广告</h3>
-        <p class="service-desc">面向品牌电商的产品级广告片。交付具有TVC质感的完整广告成片，包含脚本创意、场景画面、产品渲染、音画合成。制作周期和成本远低于传统影视团队，画面品质对标广告级标准。</p>
-        <ul class="service-features"><li>品牌级质感</li><li>全流程交付</li><li>新品发布</li></ul>
-        <p class="service-client">适合：<strong>品牌方、电商运营</strong> &mdash; 新品发布与品牌广告投放</p>
-        <span class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
-      </a>
+        <p class="service-desc">面向品牌电商的产品级广告片。交付具有TVC质感的完整成片：脚本创意、场景画面、产品渲染、音画合成。画面品质对标广告级标准，制作周期和成本远低于传统影视。</p>
+        <ul class="service-features"><li>品牌级质感</li><li>AI全流程</li><li>新品发布</li></ul>
+        <p class="service-client">适合：<strong>品牌方、电商运营</strong> &mdash; 品牌广告投放与新品推广</p>
+        <a href="cases.html#tvc" class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
 
-      <!-- 05 AI数字人 — 单人+双人+多语种 -->
-      <a href="cases.html#digital-human" class="service-card">
-        <div class="service-card-icon">&#9679;</div>
+      <!-- 05 AI数字人（单人/双人/多语种） -->
+      <div class="service-card">
+        <div class="service-card-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
         <span class="service-type ai-human">AI 数字人</span>
-        <h3>AI 数字人<br>（单人/双人/多语种）</h3>
-        <p class="service-desc">真人1:1高精度克隆建模，交付高度还原真人形象的数字人视频。一次建模，无限复用，持续产出内容。支持<strong>单人讲解</strong>（知识分享、产品介绍、培训视频）、<strong>双人互动</strong>（对话访谈、双主播带货）和<strong>多语种播报</strong>（同一形象输出多国语言版本，口型与语音严格同步）三种模式。</p>
-        <ul class="service-features"><li>单人讲解</li><li>双人互动</li><li>多语种播报</li></ul>
-        <p class="service-client">适合：<strong>品牌方、MCN、跨境电商、企业培训</strong> &mdash; 需真人形象但不想反复拍摄</p>
-        <span class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
-      </a>
+        <h3>AI 数字人（单人/双人/多语种）</h3>
+        <p class="service-desc">对真人1:1高精度克隆建模，交付高度还原真人形象的数字人视频，看不出AI痕迹。一次建模持续产出。支持单人讲解、双人互动、多语种播报三种模式。</p>
+        <ul class="service-features"><li>单人模式</li><li>双人模式</li><li>多语种播报</li><li>一次建模持续产出</li></ul>
+        <p class="service-client">适合：<strong>品牌方、MCN、企业培训、跨境电商</strong> &mdash; 需真人形象但不想反复拍摄</p>
+        <a href="cases.html#digital-human" class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
 
       <!-- 06 AI企业宣传片 -->
-      <a href="cases.html#corporate" class="service-card">
-        <div class="service-card-icon">&#9642;</div>
+      <div class="service-card">
+        <div class="service-card-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="14" rx="2"/><polyline points="7 21 12 17 17 21"/></svg>
+        </div>
         <span class="service-type ai-video">AI 视频</span>
         <h3>AI 企业宣传片</h3>
-        <p class="service-desc">品牌级AI宣传片创作服务。交付既能打动观众、又符合品牌标准的完整广告片成品，包含分镜创意、场景画面、角色渲染、音画合成等完整制作环节，并由专业影视团队把控艺术品质和品牌调性。</p>
-        <ul class="service-features"><li>品牌级叙事</li><li>专业影视品控</li><li>中小企业友好</li></ul>
-        <p class="service-client">适合：<strong>中小企业、品牌市场部</strong> &mdash; 预算有限但对品质有要求</p>
-        <span class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
-      </a>
+        <p class="service-desc">品牌级AI宣传片创作服务。交付既能打动观众、又符合品牌标准的完整广告片，包含分镜创意、场景画面、角色渲染、音画合成，由专业影视团队把控品质和品牌调性。</p>
+        <ul class="service-features"><li>品牌级叙事</li><li>AI+专业品质</li><li>中小企业友好</li></ul>
+        <p class="service-client">适合：<strong>中小企业、品牌市场部</strong> &mdash; 高性价比获得品牌级宣传片</p>
+        <a href="cases.html#corporate" class="service-card-link">查看案例 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
 
     </div>
   </div>
@@ -1303,12 +1233,12 @@ a.service-card {
           </tr>
         </thead>
         <tbody>
-          <tr><td><span class="num">01</span></td><td class="name"><a href="cases.html#ecommerce" class="table-link"><span class="table-line">电商图片（国内 / 跨境）<span class="table-arrow"> →</span></span></a></td><td><span class="type-badge image">图片</span></td><td>电商卖家、整店视觉方案</td></tr>
-          <tr><td><span class="num">02</span></td><td class="name"><a href="cases.html#info-feed" class="table-link"><span class="table-line">产品信息流<span class="table-arrow"> →</span></span></a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>信息流投放、抖音/快手/小红书</td></tr>
-          <tr><td><span class="num">03</span></td><td class="name"><a href="cases.html#info-feed" class="table-link"><span class="table-line">口播 + 产品混剪<span class="table-arrow"> →</span></span></a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>产品解说、种草测评</td></tr>
-          <tr><td><span class="num">04</span></td><td class="name"><a href="cases.html#tvc" class="table-link"><span class="table-line">TVC 产品广告<span class="table-arrow"> →</span></span></a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>品牌电商广告投放、新品发布</td></tr>
-          <tr><td><span class="num">05</span></td><td class="name"><a href="cases.html#digital-human" class="table-link"><span class="table-line">AI 数字人（单人/双人/多语种）<span class="table-arrow"> →</span></span></a></td><td><span class="type-badge ai-human">AI 数字人</span></td><td>品牌IP、培训内宣、跨境电商</td></tr>
-          <tr><td><span class="num">06</span></td><td class="name"><a href="cases.html#corporate" class="table-link"><span class="table-line">AI 企业宣传片<span class="table-arrow"> →</span></span></a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>品牌形象宣传片、企业年度宣传</td></tr>
+          <tr><td><span class="num">01</span></td><td class="name"><a href="cases.html#ecommerce" class="table-link">电商图片（国内 / 跨境）</a></td><td><span class="type-badge image">图片</span></td><td>电商卖家、整店视觉方案</td></tr>
+          <tr><td><span class="num">02</span></td><td class="name"><a href="cases.html#info-feed" class="table-link">产品信息流</a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>信息流投放、抖音/快手/小红书</td></tr>
+          <tr><td><span class="num">03</span></td><td class="name"><a href="cases.html#info-feed" class="table-link">口播 + 产品混剪</a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>产品解说、种草测评</td></tr>
+          <tr><td><span class="num">04</span></td><td class="name"><a href="cases.html#tvc" class="table-link">TVC 产品广告</a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>品牌电商广告投放、新品发布</td></tr>
+          <tr><td><span class="num">05</span></td><td class="name"><a href="cases.html#digital-human" class="table-link">AI 数字人（单人/双人/多语种）</a></td><td><span class="type-badge ai-human">AI 数字人</span></td><td>品牌IP、培训内宣、双人访谈、跨境电商多语种</td></tr>
+          <tr><td><span class="num">06</span></td><td class="name"><a href="cases.html#corporate" class="table-link">AI 企业宣传片</a></td><td><span class="type-badge ai-video">AI 视频</span></td><td>品牌形象宣传片、企业年度宣传</td></tr>
         </tbody>
       </table>
     </div>
@@ -1326,22 +1256,22 @@ a.service-card {
       <div class="advantage-card">
         <span class="adv-icon">&#9678;</span>
         <h4>技术自研</h4>
-        <p>拓元是 AI 技术公司，数字人引擎、视频生成、语音合成均为自有技术栈，非第三方封装。</p>
+        <p>拓元集团是 AI 技术公司，数字人引擎、视频生成、语音合成均为自有技术栈，非第三方封装。</p>
       </div>
       <div class="advantage-card">
         <span class="adv-icon">&#9632;</span>
         <h4>直播实战验证</h4>
-        <p>数字人 7&times;24 小时不间断直播、低延迟驱动、多平台并发，在 AI 直播业务中运行了两年。</p>
+        <p>数字人 7&times;24 小时不间断直播、低延迟驱动、多平台并发——这些能力在 AI 直播业务中运行了两年，迁移到视频制作有真实商业场景数据支撑。</p>
       </div>
       <div class="advantage-card">
         <span class="adv-icon">&#9674;</span>
-        <h4>企业宣传片独家</h4>
-        <p>品牌级 AI 叙事制作能力在市场中具有稀缺性。传统制作周期长成本高，我们能以更高效率交付同等甚至更高质感的宣传片。</p>
+        <h4>AI企业宣传片独家</h4>
+        <p>品牌级 AI 叙事制作能力在目前市场中具有稀缺性。传统制作周期长成本高，我们能以更高效率交付同等甚至更高质感的宣传片。</p>
       </div>
       <div class="advantage-card">
         <span class="adv-icon">&#9650;</span>
         <h4>全链路覆盖</h4>
-        <p>从电商图片到品牌宣传片，视频和图片两大类内容需求一站覆盖，无需对接多家供应商。</p>
+        <p>从短视频批量生产到品牌级宣传片，加上电商全套图片生成，视频和图片两大类内容需求一站覆盖，客户无需对接多家供应商。</p>
       </div>
     </div>
   </div>
@@ -1356,13 +1286,13 @@ a.service-card {
     </div>
     <div class="scenarios-list reveal">
       <div class="scenario-item"><span class="scenario-dot"></span><span><strong>电商投放</strong> &mdash; 服务2、3，适合信息流批量投放</span></div>
-      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>电商店铺</strong> &mdash; 服务1，主图+轮播图+详情页一站式出图，国内跨境均覆盖</span></div>
-      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>TVC 广告</strong> &mdash; 服务4，品牌级产品广告片</span></div>
-      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>跨境电商</strong> &mdash; 服务5多语种模式，一个数字人覆盖多语种市场；服务1多平台图片适配</span></div>
+      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>电商店铺装修</strong> &mdash; 服务1，主图+轮播图+详情页一站式出图，国内跨境均覆盖</span></div>
+      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>TVC 产品广告</strong> &mdash; 服务4，品牌级产品广告片</span></div>
+      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>跨境电商</strong> &mdash; 服务5多语种模式，一个数字人覆盖多语种市场；服务1，多平台多语种图片适配</span></div>
       <div class="scenario-item"><span class="scenario-dot"></span><span><strong>品牌宣传片</strong> &mdash; 服务6，AI企业宣传片</span></div>
-      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>品牌代言</strong> &mdash; 服务5，AI数字人</span></div>
-      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>MCN 矩阵</strong> &mdash; 服务3、5，持续产出内容，不依赖真人出镜</span></div>
-      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>企业内宣</strong> &mdash; 服务5，数字人单人/双人模式替代真人重复拍摄</span></div>
+      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>品牌代言/高规格活动</strong> &mdash; 服务5，高保真数字人</span></div>
+      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>MCN / 账号矩阵</strong> &mdash; 服务3、5，持续产出内容，不依赖真人每次出镜</span></div>
+      <div class="scenario-item"><span class="scenario-dot"></span><span><strong>企业培训/内宣</strong> &mdash; 服务5，数字人单人/双人模式均可替代真人重复拍摄</span></div>
     </div>
   </div>
 </section>
@@ -1445,7 +1375,7 @@ a.service-card {
         <p class="section-label" style="margin-bottom:0.5rem;">Service Manual</p>
         <h3 class="manual-cta-title" style="font-size:1.6rem;margin-bottom:0.75rem;">完整服务手册</h3>
         <p class="manual-cta-desc" style="color:var(--text-secondary);font-size:0.9rem;line-height:1.65;margin-bottom:1.5rem;">
-          涵盖公司简介、AI视频与AI数字人技术区分、六项服务详解、
+          涵盖公司简介、AI视频与AI数字人技术区分、七项服务详解、
           服务总览表、核心优势、客户场景对照、合作流程及技术能力。
         </p>
         <a href="services.html" class="hero-cta manual-cta-btn" style="font-size:0.78rem;padding:0.6rem 1.5rem;">
@@ -1498,39 +1428,6 @@ window.addEventListener('scroll', () => {
     el.style.transform = `translateY(${scrolled * (0.02 + i * 0.01)}px)`;
   });
 }, { passive: true });
-
-/* ═════ Navigation Active Toggle ═════ */
-(function() {
-  var navLinks = document.querySelectorAll('.nav-links a');
-  var ignoreObserver = false;
-  function setActive(href) {
-    navLinks.forEach(function(l) { l.classList.remove('active'); if(l.getAttribute('href')===href) l.classList.add('active'); });
-  }
-  var ids = ['services','process'];
-  var sections = ids.map(function(id){return document.getElementById(id);}).filter(Boolean);
-  function initObserver() {
-    sections.forEach(function(sec){
-      var obs = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){
-          if(!ignoreObserver && e.isIntersecting) setActive('#'+e.target.id);
-        });
-      }, {threshold:0.3, rootMargin:'-80px 0px 0px 0px'});
-      obs.observe(sec);
-    });
-  }
-  if(window.location.hash) {
-    setActive(window.location.hash);
-    setTimeout(initObserver, 800);
-  } else {
-    setActive('#process');
-    initObserver();
-  }
-  window.addEventListener('hashchange', function(){
-    ignoreObserver = true;
-    setActive(window.location.hash);
-    setTimeout(function(){ ignoreObserver = false; }, 600);
-  });
-})();
 </script>
 </body>
 </html>
